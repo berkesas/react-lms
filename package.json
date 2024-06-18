@@ -1,0 +1,11 @@
+{
+  "name": "react-lms",
+  "version": "0.0.1",
+  "description": "Learning management components for React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nazar Mammedov",
+  "license": "MIT"
+}
