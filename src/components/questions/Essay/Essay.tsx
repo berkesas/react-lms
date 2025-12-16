@@ -56,34 +56,34 @@ function EssayContent() {
   const isOverMaxChars = config.maxCharacters && charCount > config.maxCharacters;
 
   return (
-    <div className="essay-question">
-      <div className="question-header">
-        {config.title && <h3 className="question-title">{config.title}</h3>}
+    <div className="picolms-essay-question">
+      <div className="picolms-question-header">
+        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
         <div 
-          className="question-text"
+          className="picolms-question-text"
           dangerouslySetInnerHTML={{ __html: config.question }}
         />
         {config.instructions && (
-          <p className="question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">{config.instructions}</p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
-        <div className="question-media">
+        <div className="picolms-question-media">
           {config.media.map(media => (
-            <div key={media.id} className="media-item">
+            <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="media-caption">{media.caption}</p>}
+              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
             </div>
           ))}
         </div>
       )}
 
-      <div className="essay-input-container">
+      <div className="picolms-essay-input-container">
         <textarea
-          className={`essay-textarea ${validation.errors.length > 0 ? 'essay-textarea-error' : ''}`}
+          className={`picolms-essay-textarea ${validation.errors.length > 0 ? 'essay-textarea-error' : ''}`}
           value={answer.value || ''}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -95,9 +95,9 @@ function EssayContent() {
           aria-describedby={validation.errors.length > 0 ? `error-${config.id}` : undefined}
         />
         
-        <div className="essay-counters">
+        <div className="picolms-essay-counters">
           {showWordCount && (
-            <div className={`essay-word-count ${isUnderMinWords || isOverMaxWords ? 'count-warning' : ''}`}>
+            <div className={`picolms-essay-word-count ${isUnderMinWords || isOverMaxWords ? 'count-warning' : ''}`}>
               <span className="count-label">Words:</span>
               <span className="count-value">
                 {wordCount}
@@ -109,7 +109,7 @@ function EssayContent() {
           )}
           
           {showCharCount && (
-            <div className={`essay-char-count ${isUnderMinChars || isOverMaxChars ? 'count-warning' : ''}`}>
+            <div className={`picolms-essay-char-count ${isUnderMinChars || isOverMaxChars ? 'count-warning' : ''}`}>
               <span className="count-label">Characters:</span>
               <span className="count-value">
                 {charCount}
@@ -122,52 +122,52 @@ function EssayContent() {
         </div>
 
         {(isUnderMinWords || isOverMaxWords || isUnderMinChars || isOverMaxChars) && (
-          <div className="essay-length-warnings" role="alert">
+          <div className="picolms-essay-length-warnings" role="alert">
             {isUnderMinWords && (
-              <p className="warning-message">Your essay needs at least {config.minWords! - wordCount} more words.</p>
+              <p className="picolms-warning-message">Your essay needs at least {config.minWords! - wordCount} more words.</p>
             )}
             {isOverMaxWords && (
-              <p className="warning-message">Your essay exceeds the maximum by {wordCount - config.maxWords!} words.</p>
+              <p className="picolms-warning-message">Your essay exceeds the maximum by {wordCount - config.maxWords!} words.</p>
             )}
             {isUnderMinChars && (
-              <p className="warning-message">Your essay needs at least {config.minCharacters! - charCount} more characters.</p>
+              <p className="picolms-warning-message">Your essay needs at least {config.minCharacters! - charCount} more characters.</p>
             )}
             {isOverMaxChars && (
-              <p className="warning-message">Your essay exceeds the maximum by {charCount - config.maxCharacters!} characters.</p>
+              <p className="picolms-warning-message">Your essay exceeds the maximum by {charCount - config.maxCharacters!} characters.</p>
             )}
           </div>
         )}
       </div>
 
       {validation.errors.length > 0 && (
-        <div id={`error-${config.id}`} className="question-errors" role="alert">
+        <div id={`error-${config.id}`} className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="error-message">{error}</p>
+            <p key={index} className="picolms-error-message">{error}</p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`question-feedback feedback-${context.feedback.type}`} role="status">
+        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
           {context.feedback.message}
         </div>
       )}
 
       {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="question-hints">
+        <div className="picolms-question-hints">
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">{hint}</p>
             ))}
           </details>
         </div>
       )}
 
-      <div className="question-meta">
-        <span className="question-points">{config.points} points</span>
+      <div className="picolms-question-meta">
+        <span className="picolms-question-points">{config.points} points</span>
         {config.difficulty && (
-          <span className="question-difficulty">{config.difficulty}</span>
+          <span className="picolms-question-difficulty">{config.difficulty}</span>
         )}
       </div>
     </div>

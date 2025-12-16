@@ -25,11 +25,11 @@ export function QuizProgressBar(props: QuizProgressBarProps) {
   };
 
   return (
-    <div className={`quiz-progress ${className || ''}`}>
+    <div className={`picolms-quiz-progress ${className || ''}`}>
       {showProgressBar && (
-        <div className="quiz-progress-bar-container">
+        <div className="picolms-quiz-progress-bar-container">
           <div
-            className="quiz-progress-bar"
+            className="picolms-quiz-progress-bar"
             role="progressbar"
             aria-valuenow={progress.percentComplete}
             aria-valuemin={0}
@@ -37,38 +37,38 @@ export function QuizProgressBar(props: QuizProgressBarProps) {
             aria-label="Quiz progress"
           >
             <div
-              className="quiz-progress-fill"
+              className="picolms-quiz-progress-fill"
               style={{ width: `${progress.percentComplete}%` }}
             />
           </div>
-          <span className="quiz-progress-percentage">
+          <span className="picolms-quiz-progress-percentage">
             {Math.round(progress.percentComplete)}%
           </span>
         </div>
       )}
 
-      <div className="quiz-progress-info">
+      <div className="picolms-quiz-progress-info">
         {showAnsweredCount && (
-          <div className="quiz-progress-answered">
-            <span className="progress-label">Answered:</span>
-            <span className="progress-value">
+          <div className="picolms-quiz-progress-answered">
+            <span className="picolms-progress-label">Answered:</span>
+            <span className="picolms-progress-value">
               {progress.answeredQuestions} / {progress.totalQuestions}
             </span>
           </div>
         )}
 
         {showTimeRemaining && config.timeLimit && progress.timeRemaining !== undefined && (
-          <div className={`quiz-progress-time ${progress.timeRemaining < 60 ? 'time-warning' : ''}`}>
-            <span className="progress-label">Time remaining:</span>
-            <span className="progress-value">
+          <div className={`picolms-quiz-progress-time ${progress.timeRemaining < 60 ? 'time-warning' : ''}`}>
+            <span className="picolms-progress-label">Time remaining:</span>
+            <span className="picolms-progress-value">
               {formatTime(progress.timeRemaining)}
             </span>
           </div>
         )}
 
-        <div className="quiz-progress-time-spent">
-          <span className="progress-label">Time spent:</span>
-          <span className="progress-value">
+        <div className="picolms-quiz-progress-time-spent">
+          <span className="picolms-progress-label">Time spent:</span>
+          <span className="picolms-progress-value">
             {formatTime(progress.timeSpent)}
           </span>
         </div>

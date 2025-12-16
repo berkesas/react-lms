@@ -21,11 +21,11 @@ export function QuizNavigation(props: QuizNavigationProps) {
   const { config, currentQuestionIndex } = state;
 
   return (
-    <div className={`quiz-navigation ${className || ''}`}>
+    <div className={`picolms-quiz-navigation ${className || ''}`}>
       {showQuestionList && config.allowNavigation && (
-        <div className="quiz-question-list">
+        <div className="picolms-quiz-question-list">
           <h3>Questions</h3>
-          <div className="quiz-question-grid">
+          <div className="picolms-quiz-question-grid">
             {config.questions.map((question, index) => {
               const isAnswered = state.answers.has(question.id);
               const isCurrent = index === currentQuestionIndex;
@@ -34,13 +34,13 @@ export function QuizNavigation(props: QuizNavigationProps) {
                 <button
                   key={question.id}
                   type="button"
-                  className={`quiz-question-item ${isCurrent ? 'current' : ''} ${isAnswered ? 'answered' : ''}`}
+                  className={`picolms-quiz-question-item ${isCurrent ? 'current' : ''} ${isAnswered ? 'answered' : ''}`}
                   onClick={() => goToQuestion(index)}
                   aria-label={`Go to question ${index + 1}`}
                   aria-current={isCurrent ? 'step' : undefined}
                 >
                   {index + 1}
-                  {isAnswered && <span className="answered-indicator">✓</span>}
+                  {isAnswered && <span className="picolms-answered-indicator">✓</span>}
                 </button>
               );
             })}
@@ -48,10 +48,10 @@ export function QuizNavigation(props: QuizNavigationProps) {
         </div>
       )}
 
-      <div className="quiz-nav-buttons">
+      <div className="picolms-quiz-nav-buttons">
         <button
           type="button"
-          className="quiz-nav-button quiz-prev-button"
+          className="picolms-quiz-nav-button picolms-quiz-prev-button"
           onClick={previousQuestion}
           disabled={!canGoPrevious}
           aria-label="Previous question"
@@ -59,14 +59,14 @@ export function QuizNavigation(props: QuizNavigationProps) {
           ← Previous
         </button>
 
-        <span className="quiz-nav-position">
+        <span className="picolms-quiz-nav-position">
           {currentQuestionIndex + 1} / {config.questions.length}
         </span>
 
         {canGoNext ? (
           <button
             type="button"
-            className="quiz-nav-button quiz-next-button"
+            className="picolms-quiz-nav-button picolms-quiz-next-button"
             onClick={nextQuestion}
             aria-label="Next question"
           >
@@ -75,7 +75,7 @@ export function QuizNavigation(props: QuizNavigationProps) {
         ) : (
           <button
             type="button"
-            className="quiz-nav-button quiz-submit-button"
+            className="picolms-quiz-nav-button picolms-quiz-submit-button"
             onClick={submitQuiz}
             disabled={!canSubmitQuiz}
             aria-label="Submit quiz"

@@ -71,8 +71,8 @@ export function Quiz(props: QuizProps) {
     if (!currentQuestion) return null;
 
     return (
-      <div className="quiz-question-container">
-        <div className="quiz-question-number">
+      <div className="picolms-quiz-question-container">
+        <div className="picolms-quiz-question-number">
           Question {state.currentQuestionIndex + 1} of {config.questions.length}
         </div>
         {/* Question component will be rendered by children or custom renderer */}
@@ -82,10 +82,10 @@ export function Quiz(props: QuizProps) {
 
   // Default navigation renderer
   const defaultRenderNavigation = () => (
-    <div className="quiz-navigation">
+    <div className="picolms-quiz-navigation">
       <button
         type="button"
-        className="quiz-nav-button quiz-nav-prev"
+        className="picolms-quiz-nav-button picolms-quiz-nav-prev"
         onClick={previousQuestion}
         disabled={!canGoPrevious}
       >
@@ -95,7 +95,7 @@ export function Quiz(props: QuizProps) {
       {canGoNext ? (
         <button
           type="button"
-          className="quiz-nav-button quiz-nav-next"
+          className="picolms-quiz-nav-button picolms-quiz-nav-next"
           onClick={nextQuestion}
         >
           Next →
@@ -103,7 +103,7 @@ export function Quiz(props: QuizProps) {
       ) : (
         <button
           type="button"
-          className="quiz-nav-button quiz-nav-submit"
+          className="picolms-quiz-nav-button picolms-quiz-nav-submit"
           onClick={submitQuiz}
           disabled={!canSubmitQuiz}
         >
@@ -115,10 +115,10 @@ export function Quiz(props: QuizProps) {
 
   // Default progress renderer
   const defaultRenderProgress = () => (
-    <div className="quiz-progress">
-      <div className="quiz-progress-bar">
+    <div className="picolms-quiz-progress">
+      <div className="picolms-quiz-progress-bar">
         <div
-          className="quiz-progress-fill"
+          className="picolms-quiz-progress-fill"
           style={{ width: `${progress.percentComplete}%` }}
           role="progressbar"
           aria-valuenow={progress.percentComplete}
@@ -141,11 +141,11 @@ export function Quiz(props: QuizProps) {
   if (showingResults && loadedResult) {
     return (
       <QuizProvider value={quizState}>
-        <div className={`quiz-container ${className || ''}`}>
-          <div className="quiz-header">
-            <h1 className="quiz-title">{config.title}</h1>
+        <div className={`picolms-quiz-container ${className || ''}`}>
+          <div className="picolms-quiz-header">
+            <h1 className="picolms-quiz-title">{config.title}</h1>
             {config.description && (
-              <p className="quiz-description">{config.description}</p>
+              <p className="picolms-quiz-description">{config.description}</p>
             )}
           </div>
           {children}
@@ -156,14 +156,14 @@ export function Quiz(props: QuizProps) {
 
   return (
     <QuizProvider value={quizState}>
-      <div className={`quiz-container ${className || ''}`}>
-        <div className="quiz-header">
-          <h1 className="quiz-title">{config.title}</h1>
+      <div className={`picolms-quiz-container ${className || ''}`}>
+        <div className="picolms-quiz-header">
+          <h1 className="picolms-quiz-title">{config.title}</h1>
           {config.description && (
-            <p className="quiz-description">{config.description}</p>
+            <p className="picolms-quiz-description">{config.description}</p>
           )}
           {config.instructions && (
-            <div className="quiz-instructions">{config.instructions}</div>
+            <div className="picolms-quiz-instructions">{config.instructions}</div>
           )}
         </div>
 
@@ -171,7 +171,7 @@ export function Quiz(props: QuizProps) {
         {(state.status === 'submitted' || state.status === 'graded') &&
         config.showScore ? (
           <div
-            className="quiz-results-summary"
+            className="picolms-quiz-results-summary"
             style={{
               padding: '2rem',
               background: '#f3f4f6',
@@ -219,7 +219,7 @@ export function Quiz(props: QuizProps) {
           <>
             {renderProgress ? renderProgress() : defaultRenderProgress()}
 
-            <div className="quiz-content">
+            <div className="picolms-quiz-content">
               {renderQuestion
                 ? renderQuestion(currentQuestion, state.currentQuestionIndex)
                 : defaultRenderQuestion()}

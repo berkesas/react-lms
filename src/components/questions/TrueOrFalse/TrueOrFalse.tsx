@@ -23,8 +23,8 @@ function TrueOrFalseContent() {
   const displayAs = config.displayAs || 'radio';
 
   const renderRadioButtons = () => (
-    <div className="tf-options" role="radiogroup" aria-label="True or False">
-      <label className={`tf-option ${answer.value === true ? 'tf-option-selected' : ''}`}>
+    <div className="picolms-tf-options" role="radiogroup" aria-label="True or False">
+      <label className={`picolms-tf-option ${answer.value === true ? 'tf-option-selected' : ''}`}>
         <input
           type="radio"
           name={`question-${config.id}`}
@@ -35,7 +35,7 @@ function TrueOrFalseContent() {
         />
         <span className="tf-option-text">True</span>
       </label>
-      <label className={`tf-option ${answer.value === false ? 'tf-option-selected' : ''}`}>
+      <label className={`picolms-tf-option ${answer.value === false ? 'tf-option-selected' : ''}`}>
         <input
           type="radio"
           name={`question-${config.id}`}
@@ -50,10 +50,10 @@ function TrueOrFalseContent() {
   );
 
   const renderButtons = () => (
-    <div className="tf-buttons" role="group" aria-label="True or False">
+    <div className="picolms-tf-buttons" role="group" aria-label="True or False">
       <button
         type="button"
-        className={`tf-button ${answer.value === true ? 'tf-button-selected' : ''}`}
+        className={`picolms-tf-button ${answer.value === true ? 'tf-button-selected' : ''}`}
         onClick={() => handleChange(true)}
         disabled={isLocked}
         aria-pressed={answer.value === true}
@@ -62,7 +62,7 @@ function TrueOrFalseContent() {
       </button>
       <button
         type="button"
-        className={`tf-button ${answer.value === false ? 'tf-button-selected' : ''}`}
+        className={`picolms-tf-button ${answer.value === false ? 'tf-button-selected' : ''}`}
         onClick={() => handleChange(false)}
         disabled={isLocked}
         aria-pressed={answer.value === false}
@@ -73,8 +73,8 @@ function TrueOrFalseContent() {
   );
 
   const renderToggle = () => (
-    <div className="tf-toggle">
-      <label className="tf-toggle-label">
+    <div className="picolms-tf-toggle">
+      <label className="picolms-tf-toggle-label">
         <input
           type="checkbox"
           checked={answer.value === true}
@@ -83,8 +83,8 @@ function TrueOrFalseContent() {
           role="switch"
           aria-checked={answer.value === true}
         />
-        <span className="tf-toggle-slider"></span>
-        <span className="tf-toggle-text">
+        <span className="picolms-tf-toggle-slider"></span>
+        <span className="picolms-tf-toggle-text">
           {answer.value === true ? 'True' : 'False'}
         </span>
       </label>
@@ -92,26 +92,26 @@ function TrueOrFalseContent() {
   );
 
   return (
-    <div className="true-false-question">
-      <div className="question-header">
-        {config.title && <h3 className="question-title">{config.title}</h3>}
+    <div className="picolms-true-false-question">
+      <div className="picolms-question-header">
+        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
         <div 
-          className="question-text"
+          className="picolms-question-text"
           dangerouslySetInnerHTML={{ __html: config.question }}
         />
         {config.instructions && (
-          <p className="question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">{config.instructions}</p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
-        <div className="question-media">
+        <div className="picolms-question-media">
           {config.media.map(media => (
-            <div key={media.id} className="media-item">
+            <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="media-caption">{media.caption}</p>}
+              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
             </div>
           ))}
         </div>
@@ -122,34 +122,34 @@ function TrueOrFalseContent() {
       {displayAs === 'toggle' && renderToggle()}
 
       {validation.errors.length > 0 && (
-        <div className="question-errors" role="alert">
+        <div className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="error-message">{error}</p>
+            <p key={index} className="picolms-error-message">{error}</p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`question-feedback feedback-${context.feedback.type}`} role="status">
+        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
           {context.feedback.message}
         </div>
       )}
 
       {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="question-hints">
+        <div className="picolms-question-hints">
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">{hint}</p>
             ))}
           </details>
         </div>
       )}
 
-      <div className="question-meta">
-        <span className="question-points">{config.points} points</span>
+      <div className="picolms-question-meta">
+        <span className="picolms-question-points">{config.points} points</span>
         {config.difficulty && (
-          <span className="question-difficulty">{config.difficulty}</span>
+          <span className="picolms-question-difficulty">{config.difficulty}</span>
         )}
       </div>
     </div>

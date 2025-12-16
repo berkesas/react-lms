@@ -151,7 +151,7 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
   return (
     <QuestionProvider value={contextValue}>
       <div
-        className={`base-question ${className || ''}`}
+        className={`picolms-base-question ${className || ''}`}
         role="group"
         aria-label={ariaLabel || config.accessibility?.ariaLabel || `Question: ${config.question}`}
         aria-describedby={config.accessibility?.ariaDescribedBy}

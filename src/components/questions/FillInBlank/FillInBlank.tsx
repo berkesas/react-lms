@@ -31,7 +31,7 @@ function FillInBlankContent() {
   const renderSegment = (segment: typeof config.segments[number], index: number) => {
     if (segment.type === 'text') {
       return (
-        <span key={index} className="fib-text">
+        <span key={index} className="picolms-fib-text">
           {segment.content}
         </span>
       );
@@ -45,7 +45,7 @@ function FillInBlankContent() {
       <input
         key={index}
         type="text"
-        className="fib-blank"
+        className="picolms-fib-blank"
         value={value}
         onChange={(e) => handleBlankChange(blankId, e.target.value)}
         disabled={isLocked}
@@ -57,60 +57,60 @@ function FillInBlankContent() {
   };
 
   return (
-    <div className="fill-in-blank-question">
-      <div className="question-header">
-        {config.title && <h3 className="question-title">{config.title}</h3>}
+    <div className="picolms-fill-in-blank-question">
+      <div className="picolms-question-header">
+        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
         {config.instructions && (
-          <p className="question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">{config.instructions}</p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
-        <div className="question-media">
+        <div className="picolms-question-media">
           {config.media.map(media => (
-            <div key={media.id} className="media-item">
+            <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="media-caption">{media.caption}</p>}
+              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
             </div>
           ))}
         </div>
       )}
 
-      <div className="fib-content">
+      <div className="picolms-fib-content">
         {config.segments.map((segment, index) => renderSegment(segment, index))}
       </div>
 
       {validation.errors.length > 0 && (
-        <div className="question-errors" role="alert">
+        <div className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="error-message">{error}</p>
+            <p key={index} className="picolms-error-message">{error}</p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`question-feedback feedback-${context.feedback.type}`} role="status">
+        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
           {context.feedback.message}
         </div>
       )}
 
       {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="question-hints">
+        <div className="picolms-question-hints">
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">{hint}</p>
             ))}
           </details>
         </div>
       )}
 
-      <div className="question-meta">
-        <span className="question-points">{config.points} points</span>
+      <div className="picolms-question-meta">
+        <span className="picolms-question-points">{config.points} points</span>
         {config.difficulty && (
-          <span className="question-difficulty">{config.difficulty}</span>
+          <span className="picolms-question-difficulty">{config.difficulty}</span>
         )}
       </div>
     </div>

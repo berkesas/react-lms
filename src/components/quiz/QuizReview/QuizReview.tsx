@@ -27,32 +27,32 @@ export function QuizReview(props: QuizReviewProps) {
   };
 
   return (
-    <div className={`quiz-review ${className || ''}`}>
-      <div className="quiz-review-header">
+    <div className={`picolms-quiz-review ${className || ''}`}>
+      <div className="picolms-quiz-review-header">
         <h2>Review Your Answers</h2>
         <p>Please review your answers before submitting the quiz.</p>
       </div>
 
-      <div className="quiz-review-summary">
-        <div className="review-summary-item">
-          <span className="summary-label">Total Questions:</span>
-          <span className="summary-value">{config.questions.length}</span>
+      <div className="picolms-quiz-review-summary">
+        <div className="picolms-review-summary-item">
+          <span className="picolms-summary-label">Total Questions:</span>
+          <span className="picolms-summary-value">{config.questions.length}</span>
         </div>
-        <div className="review-summary-item">
-          <span className="summary-label">Answered:</span>
-          <span className="summary-value">
+        <div className="picolms-review-summary-item">
+          <span className="picolms-summary-label">Answered:</span>
+          <span className="picolms-summary-value">
             {Array.from(state.answers.values()).filter(a => a.isAnswered).length}
           </span>
         </div>
-        <div className="review-summary-item">
-          <span className="summary-label">Unanswered:</span>
-          <span className="summary-value">
+        <div className="picolms-review-summary-item">
+          <span className="picolms-summary-label">Unanswered:</span>
+          <span className="picolms-summary-value">
             {config.questions.length - Array.from(state.answers.values()).filter(a => a.isAnswered).length}
           </span>
         </div>
       </div>
 
-      <div className="quiz-review-questions">
+      <div className="picolms-quiz-review-questions">
         {config.questions.map((question, index) => {
           const answer = state.answers.get(question.id);
           const isAnswered = answer?.isAnswered || false;
@@ -60,24 +60,24 @@ export function QuizReview(props: QuizReviewProps) {
           return (
             <div
               key={question.id}
-              className={`quiz-review-question ${isAnswered ? 'answered' : 'unanswered'}`}
+              className={`picolms-quiz-review-question ${isAnswered ? 'answered' : 'unanswered'}`}
             >
-              <div className="review-question-header">
-                <span className="review-question-number">Question {index + 1}</span>
-                <span className={`review-question-status ${isAnswered ? 'status-answered' : 'status-unanswered'}`}>
+              <div className="picolms-review-question-header">
+                <span className="picolms-review-question-number">Question {index + 1}</span>
+                <span className={`picolms-review-question-status ${isAnswered ? 'status-answered' : 'status-unanswered'}`}>
                   {isAnswered ? '✓ Answered' : '⚠ Not Answered'}
                 </span>
               </div>
               
               <div 
-                className="review-question-text"
+                className="picolms-review-question-text"
                 dangerouslySetInnerHTML={{ __html: question.question }}
               />
 
               {isAnswered && answer && (
-                <div className="review-question-answer">
+                <div className="picolms-review-question-answer">
                   <strong>Your answer:</strong>
-                  <div className="review-answer-value">
+                  <div className="picolms-review-answer-value">
                     {typeof answer.value === 'string' 
                       ? answer.value 
                       : Array.isArray(answer.value)
@@ -89,7 +89,7 @@ export function QuizReview(props: QuizReviewProps) {
 
               <button
                 type="button"
-                className="review-edit-button"
+                className="picolms-review-edit-button"
                 onClick={() => handleEdit(index)}
               >
                 {isAnswered ? 'Edit Answer' : 'Answer Question'}
@@ -99,17 +99,17 @@ export function QuizReview(props: QuizReviewProps) {
         })}
       </div>
 
-      <div className="quiz-review-actions">
+      <div className="picolms-quiz-review-actions">
         <button
           type="button"
-          className="review-back-button"
+          className="picolms-review-back-button"
           onClick={exitReviewMode}
         >
           Back to Quiz
         </button>
         <button
           type="button"
-          className="review-submit-button"
+          className="picolms-review-submit-button"
           onClick={handleSubmit}
         >
           Submit Quiz

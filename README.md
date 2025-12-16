@@ -239,21 +239,21 @@ const storage = new QuizStorageManager({ adapter, userId: 'user-123' });
 Customize the appearance with CSS variables:
 ```css
 :root {
-  /* Colors */
-  --lms-color-primary: #3b82f6;
-  --lms-color-success: #10b981;
-  --lms-color-error: #ef4444;
+  /* Primary Colors */
+  --picolms-color-primary: #your-color;
+  --picolms-color-success: #your-success;
+  --picolms-color-error: #your-error;
   
   /* Typography */
-  --lms-font-family: 'Your Font', sans-serif;
-  --lms-font-size-base: 1rem;
+  --picolms-font-family: 'Inter', sans-serif;
+  --picolms-font-size-base: 16px;
   
   /* Spacing */
-  --lms-spacing-md: 1rem;
-  --lms-spacing-lg: 1.5rem;
+  --picolms-spacing-md: 1rem;
+  --picolms-spacing-lg: 1.5rem;
   
   /* Border Radius */
-  --lms-radius-md: 0.5rem;
+  --picolms-radius-md: 0.5rem;
 }
 ```
 
@@ -263,6 +263,56 @@ Customize the appearance with CSS variables:
   <Quiz config={quizConfig} />
 </div>
 ```
+
+### Component-Specific Styling
+
+All components use the `picolms-` prefix for easy targeting:
+```css
+/* Customize multiple choice options */
+.picolms-mc-option {
+  border: 3px solid #custom-color;
+  border-radius: 1rem;
+}
+
+.picolms-mc-option:hover {
+  background: #custom-hover;
+}
+
+/* Customize quiz container */
+.picolms-quiz-container {
+  max-width: 900px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Customize navigation buttons */
+.picolms-quiz-nav-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Customize progress bar */
+.picolms-quiz-progress-fill {
+  background: linear-gradient(90deg, #custom-start, #custom-end);
+}
+```
+
+### Available Class Names
+
+All components use prefixed class names for easy customization:
+
+**Question Components:**
+- `.picolms-base-question`
+- `.picolms-question-header`, `.picolms-question-text`
+- `.picolms-mc-option`, `.picolms-mc-option-selected`
+- `.picolms-tf-button`, `.picolms-tf-toggle`
+- `.picolms-sa-input`, `.picolms-essay-textarea`
+- `.picolms-fib-blank`, `.picolms-matching-container`
+
+**Quiz Components:**
+- `.picolms-quiz-container`
+- `.picolms-quiz-progress-bar`, `.picolms-quiz-progress-fill`
+- `.picolms-quiz-nav-button`, `.picolms-quiz-question-list`
+- `.picolms-quiz-results`, `.picolms-result-question`
 
 ## Usage Examples
 
@@ -515,10 +565,6 @@ const quizConfig: QuizConfig = {
   showScore: true,
   showCorrectAnswers: true,
   
-  // Auto-save
-  autoSave: true,
-  autoSaveInterval: 2000,  // milliseconds
-  
   questions: [/* question configs */],
 };
 ```
@@ -597,34 +643,238 @@ import '@scinforma/picolms/dist/styles/index.css';
 ```
 
 ### Custom Theme
+
+Customize the appearance with CSS variables:
 ```css
 :root {
   /* Primary Colors */
-  --lms-color-primary: #your-color;
-  --lms-color-success: #your-success;
-  --lms-color-error: #your-error;
+  --picolms-color-primary: #your-color;
+  --picolms-color-success: #your-success;
+  --picolms-color-error: #your-error;
   
   /* Typography */
-  --lms-font-family: 'Inter', sans-serif;
-  --lms-font-size-base: 16px;
+  --picolms-font-family: 'Inter', sans-serif;
+  --picolms-font-size-base: 16px;
   
   /* Spacing */
-  --lms-spacing-md: 1rem;
-  --lms-spacing-lg: 1.5rem;
+  --picolms-spacing-md: 1rem;
+  --picolms-spacing-lg: 1.5rem;
+  
+  /* Border Radius */
+  --picolms-radius-md: 0.5rem;
 }
+```
+
+### Dark Mode
+```tsx
+<div data-theme="dark">
+  <Quiz config={quizConfig} />
+</div>
 ```
 
 ### Component-Specific Styling
 
-Override specific component styles:
+All components use the `picolms-` prefix for easy targeting:
 ```css
-.multiple-choice-question {
-  /* Your custom styles */
+/* Customize multiple choice options */
+.picolms-mc-option {
+  border: 3px solid #custom-color;
+  border-radius: 1rem;
 }
 
-.quiz-container {
+.picolms-mc-option:hover {
+  background: #custom-hover;
+}
+
+/* Customize quiz container */
+.picolms-quiz-container {
   max-width: 900px;
-  /* Your custom styles */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Customize navigation buttons */
+.picolms-quiz-nav-button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Customize progress bar */
+.picolms-quiz-progress-fill {
+  background: linear-gradient(90deg, #custom-start, #custom-end);
+}
+```
+
+### Available Class Names
+
+All components use prefixed class names for easy customization:
+
+**Question Components:**
+- `.picolms-base-question`
+- `.picolms-question-header`, `.picolms-question-text`
+- `.picolms-mc-option`, `.picolms-mc-option-selected`
+- `.picolms-tf-button`, `.picolms-tf-toggle`
+- `.picolms-sa-input`, `.picolms-essay-textarea`
+- `.picolms-fib-blank`, `.picolms-matching-container`
+
+**Quiz Components:**
+- `.picolms-quiz-container`
+- `.picolms-quiz-progress-bar`, `.picolms-quiz-progress-fill`
+- `.picolms-quiz-nav-button`, `.picolms-quiz-question-list`
+- `.picolms-quiz-results`, `.picolms-result-question`
+
+## Usage Examples
+
+### Question-Level Submission
+
+Each question is submitted individually with immediate feedback:
+```tsx
+const config = {
+  id: 'quiz-1',
+  submissionMode: 'question-level',
+  questions: [/* ... */],
+  showFeedbackOnSubmit: true,
+};
+```
+
+### Quiz-Level Submission
+
+All questions submitted together at the end:
+```tsx
+const config = {
+  id: 'quiz-2',
+  submissionMode: 'quiz-level',
+  questions: [/* ... */],
+  requireAllAnswered: true,
+  allowReview: true,
+};
+```
+
+### Timed Quiz
+```tsx
+const config = {
+  id: 'quiz-3',
+  timeLimit: 300,  // 5 minutes in seconds
+  showTimer: true,
+  questions: [/* ... */],
+};
+```
+
+### Linear Quiz (No Back Navigation)
+```tsx
+const config = {
+  id: 'quiz-4',
+  allowNavigation: false,
+  allowSkip: false,
+  questions: [/* ... */],
+};
+```
+
+### Auto-Save Configuration
+```tsx
+<Quiz 
+  config={quizConfig}
+  storageManager={storage}
+  autoSaveInterval={0}      // Disabled
+/>
+
+<Quiz 
+  config={quizConfig}
+  storageManager={storage}
+  autoSaveInterval={2000}   // Every 2 seconds
+/>
+
+<Quiz 
+  config={quizConfig}
+  storageManager={storage}
+  autoSaveInterval={30000}  // Every 30 seconds
+/>
+```
+
+## TypeScript Support
+
+Full TypeScript definitions are included:
+```tsx
+import type { 
+  QuizConfig,
+  QuestionConfig,
+  MultipleChoiceConfig,
+  TrueFalseConfig,
+  ShortAnswerConfig,
+  EssayConfig,
+  QuizResult,
+  QuestionAnswer,
+  LoadedQuizResult
+} from '@scinforma/picolms';
+
+const config: MultipleChoiceConfig = {
+  id: 'q1',
+  type: 'multiple-choice',
+  question: 'Sample question',
+  points: 10,
+  options: [/* ... */],
+};
+
+const handleSubmit = (result: QuizResult) => {
+  console.log(result.score, result.isPassed);
+};
+```
+
+## Advanced Features
+
+### Custom Question Renderer
+```tsx
+<Quiz 
+  config={quizConfig}
+  renderQuestion={(question, index) => (
+    <div className="my-custom-wrapper">
+      <h2>Question {index + 1}</h2>
+      <MultipleChoice config={question} />
+    </div>
+  )}
+/>
+```
+
+### Event Callbacks
+```tsx
+<Quiz 
+  config={quizConfig}
+  onAnswerChange={(questionId, answer) => {
+    console.log('Answer changed:', questionId, answer);
+  }}
+  onProgressChange={(progress) => {
+    console.log('Progress:', progress.percentComplete);
+  }}
+  onQuizSubmit={(result) => {
+    console.log('Submitted:', result);
+  }}
+/>
+```
+
+### Load Previous Results
+```tsx
+import { useQuizStorage, createLocalStorageManager } from '@scinforma/picolms';
+
+const storage = createLocalStorageManager('user-123');
+
+function MyQuiz() {
+  const { latestResult, statistics } = useQuizStorage({
+    storageManager: storage,
+    quizId: 'quiz-1',
+    autoLoad: true,
+  });
+
+  return (
+    <div>
+      <p>Best Score: {statistics.bestScore}</p>
+      <p>Total Attempts: {statistics.totalAttempts}</p>
+      
+      {latestResult && (
+        <Quiz config={quizConfig} loadedResult={latestResult}>
+          <QuizResults onRetake={() => window.location.reload()} />
+        </Quiz>
+      )}
+    </div>
+  );
 }
 ```
 
@@ -655,15 +905,13 @@ Found a bug? Have a feature request? Please open an issue on [GitHub](https://gi
 
 ## Support
 
-- Email: Contact via GitHub
 - GitHub Issues: https://github.com/berkesas/react-lms/issues
 - Documentation: https://github.com/berkesas/react-lms#readme
 
 ## Acknowledgments
 
-Built with:
-- React
-- TypeScript
-- Rollup
+Built with React, TypeScript, and Rollup
 
 ---
+
+Copyright (c) 2024 Nazar Mammedov

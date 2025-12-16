@@ -73,54 +73,54 @@ function MatchingContent() {
   };
 
   return (
-    <div className="matching-question">
-      <div className="question-header">
-        {config.title && <h3 className="question-title">{config.title}</h3>}
+    <div className="picolms-matching-question">
+      <div className="picolms-question-header">
+        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
         <div 
-          className="question-text"
+          className="picolms-question-text"
           dangerouslySetInnerHTML={{ __html: config.question }}
         />
         {config.instructions && (
-          <p className="question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">{config.instructions}</p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
-        <div className="question-media">
+        <div className="picolms-question-media">
           {config.media.map(media => (
-            <div key={media.id} className="media-item">
+            <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="media-caption">{media.caption}</p>}
+              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
             </div>
           ))}
         </div>
       )}
 
-      <div className="matching-container">
+      <div className="picolms-matching-container">
         <div className="matching-left-column">
-          <h4 className="matching-column-header">Match these items...</h4>
+          <h4 className="picolms-matching-column-header">Match these items...</h4>
           {leftItems.map((item) => {
             const matchedRightId = getMatchedRightId(item.id);
             const matchedRight = rightItems.find(r => r.id === matchedRightId);
             
             return (
-              <div key={item.id} className="matching-left-item">
-                <div className="matching-item-content">
+              <div key={item.id} className="picolms-matching-left-item">
+                <div className="picolms-matching-item-content">
                   {item.media && item.media.type === 'image' && (
                     <img 
                       src={item.media.url} 
                       alt={item.media.alt || ''} 
-                      className="matching-item-image"
+                      className="picolms-matching-item-image"
                     />
                   )}
                   <span className="matching-item-text">{item.content}</span>
                 </div>
                 
-                <div className="matching-controls">
+                <div className="picolms-matching-controls">
                   <select
-                    className="matching-select"
+                    className="picolms-matching-select"
                     value={matchedRightId || ''}
                     onChange={(e) => handleMatch(item.id, e.target.value)}
                     disabled={isLocked}
@@ -141,7 +141,7 @@ function MatchingContent() {
                   {matchedRightId && !isLocked && (
                     <button
                       type="button"
-                      className="matching-clear-button"
+                      className="picolms-matching-clear-button"
                       onClick={() => handleClearMatch(item.id)}
                       aria-label="Clear match"
                     >
@@ -151,7 +151,7 @@ function MatchingContent() {
                 </div>
                 
                 {matchedRight && (
-                  <div className="matching-preview">
+                  <div className="picolms-matching-preview">
                     → {matchedRight.content}
                   </div>
                 )}
@@ -161,26 +161,26 @@ function MatchingContent() {
         </div>
 
         <div className="matching-right-column">
-          <h4 className="matching-column-header">...with these options</h4>
+          <h4 className="picolms-matching-column-header">...with these options</h4>
           {rightItems.map((item) => {
             const isUsed = isRightItemUsed(item.id);
             
             return (
               <div 
                 key={item.id} 
-                className={`matching-right-item ${isUsed ? 'matching-right-item-used' : ''}`}
+                className={`picolms-matching-right-item ${isUsed ? 'matching-right-item-used' : ''}`}
               >
-                <div className="matching-item-content">
+                <div className="picolms-matching-item-content">
                   {item.media && item.media.type === 'image' && (
                     <img 
                       src={item.media.url} 
                       alt={item.media.alt || ''} 
-                      className="matching-item-image"
+                      className="picolms-matching-item-image"
                     />
                   )}
                   <span className="matching-item-text">{item.content}</span>
                 </div>
-                {isUsed && <span className="matching-used-indicator">✓</span>}
+                {isUsed && <span className="picolms-matching-used-indicator">✓</span>}
               </div>
             );
           })}
@@ -188,34 +188,34 @@ function MatchingContent() {
       </div>
 
       {validation.errors.length > 0 && (
-        <div className="question-errors" role="alert">
+        <div className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="error-message">{error}</p>
+            <p key={index} className="picolms-error-message">{error}</p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`question-feedback feedback-${context.feedback.type}`} role="status">
+        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
           {context.feedback.message}
         </div>
       )}
 
       {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="question-hints">
+        <div className="picolms-question-hints">
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">{hint}</p>
             ))}
           </details>
         </div>
       )}
 
-      <div className="question-meta">
-        <span className="question-points">{config.points} points</span>
+      <div className="picolms-question-meta">
+        <span className="picolms-question-points">{config.points} points</span>
         {config.difficulty && (
-          <span className="question-difficulty">{config.difficulty}</span>
+          <span className="picolms-question-difficulty">{config.difficulty}</span>
         )}
       </div>
     </div>

@@ -7,3 +7,6 @@ dist/
 coverage/
 .vscode/
 .idea/
+
+#custom scripts
+add-picolms-prefix.js

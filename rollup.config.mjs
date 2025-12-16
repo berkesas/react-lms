@@ -27,7 +27,7 @@ export default [
         exclude: ['**/*.test.ts', '**/*.test.tsx', 'node_modules'],
       }),
       postcss({
-        modules: true,
+        modules: false,
         extract: false,
         minimize: true,
       }),

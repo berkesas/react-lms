@@ -38,35 +38,35 @@ function ShortAnswerContent() {
   const showCharacterCount = config.maxLength || config.minLength;
 
   return (
-    <div className="short-answer-question">
-      <div className="question-header">
-        {config.title && <h3 className="question-title">{config.title}</h3>}
+    <div className="picolms-short-answer-question">
+      <div className="picolms-question-header">
+        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
         <div 
-          className="question-text"
+          className="picolms-question-text"
           dangerouslySetInnerHTML={{ __html: config.question }}
         />
         {config.instructions && (
-          <p className="question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">{config.instructions}</p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
-        <div className="question-media">
+        <div className="picolms-question-media">
           {config.media.map(media => (
-            <div key={media.id} className="media-item">
+            <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="media-caption">{media.caption}</p>}
+              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
             </div>
           ))}
         </div>
       )}
 
-      <div className="sa-input-container">
+      <div className="picolms-sa-input-container">
         <input
           type="text"
-          className={`sa-input ${validation.errors.length > 0 ? 'sa-input-error' : ''}`}
+          className={`picolms-sa-input ${validation.errors.length > 0 ? 'sa-input-error' : ''}`}
           value={answer.value || ''}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -80,7 +80,7 @@ function ShortAnswerContent() {
         />
         
         {showCharacterCount && (
-          <div className="sa-character-count">
+          <div className="picolms-sa-character-count">
             {characterCount}
             {config.maxLength && ` / ${config.maxLength}`}
             {config.minLength && !config.maxLength && ` (min: ${config.minLength})`}
@@ -89,34 +89,34 @@ function ShortAnswerContent() {
       </div>
 
       {validation.errors.length > 0 && (
-        <div id={`error-${config.id}`} className="question-errors" role="alert">
+        <div id={`error-${config.id}`} className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="error-message">{error}</p>
+            <p key={index} className="picolms-error-message">{error}</p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`question-feedback feedback-${context.feedback.type}`} role="status">
+        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
           {context.feedback.message}
         </div>
       )}
 
       {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="question-hints">
+        <div className="picolms-question-hints">
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">{hint}</p>
             ))}
           </details>
         </div>
       )}
 
-      <div className="question-meta">
-        <span className="question-points">{config.points} points</span>
+      <div className="picolms-question-meta">
+        <span className="picolms-question-points">{config.points} points</span>
         {config.difficulty && (
-          <span className="question-difficulty">{config.difficulty}</span>
+          <span className="picolms-question-difficulty">{config.difficulty}</span>
         )}
       </div>
     </div>
