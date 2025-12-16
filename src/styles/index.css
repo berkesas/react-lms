@@ -1,0 +1,13 @@
+/**
+ * Main stylesheet entry point
+ * Import this in your application to use default styles
+ */
+
+@import './variables.css';
+@import './questions.css';
+@import './quiz.css';
+
+/* Base resets */
+* {
+  box-sizing: border-box;
+}

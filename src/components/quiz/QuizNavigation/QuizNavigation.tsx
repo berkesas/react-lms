@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuizContext } from '../../../context/QuizContext';
 
 export interface QuizNavigationProps {

@@ -1,7 +1,12 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useQuizState } from '../../../hooks/quiz/useQuizState';
 import { QuizProvider } from '../../../context/QuizContext';
-import type { QuizConfig, QuizResult } from '../../../types/quiz';
+import { QuizStorageManager } from '../../../utils';
+import type {
+  QuizConfig,
+  QuizResult,
+  LoadedQuizResult,
+} from '../../../types/quiz';
 import type { QuestionAnswer, QuestionSubmission } from '../../../types';
 
 export interface QuizProps {
@@ -14,6 +19,9 @@ export interface QuizProps {
   renderQuestion?: (question: any, index: number) => ReactNode;
   renderNavigation?: () => ReactNode;
   renderProgress?: () => ReactNode;
+  loadedResult?: LoadedQuizResult;
+  storageManager?: QuizStorageManager;
+  autoSaveInterval?: number;
   className?: string;
 }
 
@@ -28,6 +36,9 @@ export function Quiz(props: QuizProps) {
     renderQuestion,
     renderNavigation,
     renderProgress,
+    loadedResult,
+    storageManager,
+    autoSaveInterval,
     className,
   } = props;
 
@@ -37,6 +48,9 @@ export function Quiz(props: QuizProps) {
     onQuestionSubmit,
     onQuizSubmit,
     onProgressChange,
+    loadedResult,
+    storageManager,
+    autoSaveInterval,
   });
 
   const {
@@ -49,12 +63,13 @@ export function Quiz(props: QuizProps) {
     canGoPrevious,
     submitQuiz,
     canSubmitQuiz,
+    showingResults,
   } = quizState;
 
   // Default question renderer
   const defaultRenderQuestion = () => {
     if (!currentQuestion) return null;
-    
+
     return (
       <div className="quiz-question-container">
         <div className="quiz-question-number">
@@ -76,7 +91,7 @@ export function Quiz(props: QuizProps) {
       >
         ← Previous
       </button>
-      
+
       {canGoNext ? (
         <button
           type="button"
@@ -102,7 +117,7 @@ export function Quiz(props: QuizProps) {
   const defaultRenderProgress = () => (
     <div className="quiz-progress">
       <div className="quiz-progress-bar">
-        <div 
+        <div
           className="quiz-progress-fill"
           style={{ width: `${progress.percentComplete}%` }}
           role="progressbar"
@@ -123,6 +138,22 @@ export function Quiz(props: QuizProps) {
     </div>
   );
 
+  if (showingResults && loadedResult) {
+    return (
+      <QuizProvider value={quizState}>
+        <div className={`quiz-container ${className || ''}`}>
+          <div className="quiz-header">
+            <h1 className="quiz-title">{config.title}</h1>
+            {config.description && (
+              <p className="quiz-description">{config.description}</p>
+            )}
+          </div>
+          {children}
+        </div>
+      </QuizProvider>
+    );
+  }
+
   return (
     <QuizProvider value={quizState}>
       <div className={`quiz-container ${className || ''}`}>
@@ -136,25 +167,71 @@ export function Quiz(props: QuizProps) {
           )}
         </div>
 
-        {renderProgress ? renderProgress() : defaultRenderProgress()}
-
-        <div className="quiz-content">
-          {renderQuestion
-            ? renderQuestion(currentQuestion, state.currentQuestionIndex)
-            : defaultRenderQuestion()}
-          
-          {children}
-        </div>
-
-        {config.allowNavigation && (
-          renderNavigation ? renderNavigation() : defaultRenderNavigation()
-        )}
-
-        {state.status === 'submitted' && (
-          <div className="quiz-submitted-message" role="status">
-            <h2>Quiz Submitted!</h2>
-            <p>Your responses have been recorded.</p>
+        {/* SHOW RESULTS IF SUBMITTED/GRADED */}
+        {(state.status === 'submitted' || state.status === 'graded') &&
+        config.showScore ? (
+          <div
+            className="quiz-results-summary"
+            style={{
+              padding: '2rem',
+              background: '#f3f4f6',
+              borderRadius: '1rem',
+              textAlign: 'center',
+              marginBottom: '2rem',
+            }}
+          >
+            <h2>Quiz Complete!</h2>
+            <div
+              style={{ fontSize: '3rem', fontWeight: 'bold', margin: '1rem 0' }}
+            >
+              {state.score} / {state.maxScore}
+            </div>
+            <div style={{ fontSize: '1.5rem', color: '#6b7280' }}>
+              {(((state.score || 0) / state.maxScore) * 100).toFixed(1)}%
+            </div>
+            {config.passingScore && (
+              <div
+                style={{
+                  marginTop: '1rem',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.5rem',
+                  background:
+                    ((state.score || 0) / state.maxScore) * 100 >=
+                    config.passingScore
+                      ? '#d1fae5'
+                      : '#fee2e2',
+                  color:
+                    ((state.score || 0) / state.maxScore) * 100 >=
+                    config.passingScore
+                      ? '#10b981'
+                      : '#ef4444',
+                  fontWeight: 'bold',
+                }}
+              >
+                {((state.score || 0) / state.maxScore) * 100 >=
+                config.passingScore
+                  ? '✓ Passed'
+                  : '✗ Did Not Pass'}
+              </div>
+            )}
           </div>
+        ) : (
+          <>
+            {renderProgress ? renderProgress() : defaultRenderProgress()}
+
+            <div className="quiz-content">
+              {renderQuestion
+                ? renderQuestion(currentQuestion, state.currentQuestionIndex)
+                : defaultRenderQuestion()}
+
+              {children}
+            </div>
+
+            {config.allowNavigation &&
+              (renderNavigation
+                ? renderNavigation()
+                : defaultRenderNavigation())}
+          </>
         )}
       </div>
     </QuizProvider>

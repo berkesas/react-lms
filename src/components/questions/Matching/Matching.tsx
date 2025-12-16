@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
 import type { MatchingConfig, MatchingAnswer } from '../../../types';

@@ -23,6 +23,7 @@ export default [
         declarationMap: true,
         declarationDir: 'dist/esm',
         rootDir: 'src',
+        jsx: 'react-jsx',  // ADD THIS
         exclude: ['**/*.test.ts', '**/*.test.tsx', 'node_modules'],
       }),
       postcss({
@@ -31,7 +32,7 @@ export default [
         minimize: true,
       }),
     ],
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom', 'react/jsx-runtime'],  // ADD react/jsx-runtime
   },
   // CJS build without declarations
   {
@@ -50,6 +51,7 @@ export default [
         declaration: false,
         declarationMap: false,
         rootDir: 'src',
+        jsx: 'react-jsx',  // ADD THIS
         exclude: ['**/*.test.ts', '**/*.test.tsx', 'node_modules'],
       }),
       postcss({
@@ -58,6 +60,6 @@ export default [
         minimize: true,
       }),
     ],
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom', 'react/jsx-runtime'],  // ADD react/jsx-runtime
   },
 ];

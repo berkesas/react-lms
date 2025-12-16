@@ -1,4 +1,4 @@
-import React, { useCallback, ChangeEvent, useState, useEffect } from 'react';
+import { useCallback, ChangeEvent, useState, useEffect } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
 import type { EssayConfig, EssayAnswer } from '../../../types';

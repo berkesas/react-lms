@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useCallback, useState } from 'react';
+import { ReactNode, useMemo, useCallback, useState } from 'react';
 import type { 
   QuestionConfig, 
   Feedback, 
@@ -12,7 +12,7 @@ import { QuestionProvider, QuestionContextValue } from '../../../context/Questio
 export interface BaseQuestionProps<T = any> {
   config: QuestionConfig;
   initialAnswer?: T;
-  children: ReactNode;
+  children?: ReactNode;  // Make children optional
   onAnswerChange?: (answer: any) => void;
   onSubmit?: (answer: any) => void;
   onValidationChange?: (result: ValidationResult) => void;

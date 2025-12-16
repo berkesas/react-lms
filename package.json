@@ -1,41 +1,51 @@
 {
-  "name": "@scinforma/react-lms",
+  "name": "@scinforma/picolms",
   "version": "0.1.0",
+  "description": "Reusable React components for learning management systems - questions, quizzes, and assessments",
+  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types":"dist/esm/index.d.ts",
+  "types": "dist/esm/index.d.ts",
+  "style": "dist/styles/index.css",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "keywords": [
     "react",
     "lms",
-    "learning",
-    "questions",
+    "learning-management-system",
     "quiz",
-    "components"
+    "questions",
+    "assessment",
+    "education",
+    "e-learning",
+    "components",
+    "typescript"
   ],
+  "author": "Nazar Mammedov",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/berkesas/react-lms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/berkesas/react-lms/issues"
+  },
+  "homepage": "https://github.com/berkesas/react-lms#readme",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && npm run copy-styles",
+    "copy-styles": "copyfiles -u 1 \"src/styles/**/*\" dist/styles",
+    "clean": "rimraf dist",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "type-check": "tsc --noEmit",
     "prepublishOnly": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/berkesas/react-lms.git"
-  },
-  "author": "Nazar Mammedov",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/berkesas/react-lms/issues"
-  },
-  "homepage": "https://github.com/berkesas/react-lms#readme",
-  "description": "Reusable React components for learning management system questions",
   "peerDependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -45,16 +55,20 @@
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
+    "copyfiles": "^2.4.1",
+    "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "prettier": "^3.7.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "rimraf": "^6.1.2",
     "rollup": "^4.53.4",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3"
-  }
+  },
+  "sideEffects": false
 }

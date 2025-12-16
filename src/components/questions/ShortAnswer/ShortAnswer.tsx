@@ -1,4 +1,4 @@
-import React, { useCallback, ChangeEvent } from 'react';
+import { useCallback, ChangeEvent } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
 import type { ShortAnswerConfig, ShortAnswerAnswer } from '../../../types';

@@ -79,3 +79,30 @@ export interface QuizProgress {
   timeSpent: number;
   timeRemaining?: number;
 }
+
+/**
+ * Loaded quiz result for displaying previous submissions
+ */
+export interface LoadedQuizResult {
+  quizId: string;
+  submittedAt: string;
+  score: number;
+  maxScore: number;
+  percentage: number;
+  isPassed: boolean;
+  attemptNumber: number;
+  answers: QuestionAnswer[];
+  gradedAnswers?: Map<string, {
+    isCorrect: boolean;
+    score: number;
+    feedback?: string;
+  }>;
+}
+
+/**
+ * Quiz state with loaded results
+ */
+export interface QuizStateWithResults extends QuizState {
+  loadedResult?: LoadedQuizResult;
+  showingResults: boolean;
+}
