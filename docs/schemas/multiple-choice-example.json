@@ -1,0 +1,54 @@
+{
+  "id": "q1",
+  "type": "multiple-choice",
+  "question": "What is the capital of France?",
+  "instructions": "Select the correct answer",
+  "points": 10,
+  "difficulty": "beginner",
+  "options": [
+    {
+      "id": "opt1",
+      "text": "London",
+      "isCorrect": false
+    },
+    {
+      "id": "opt2",
+      "text": "Paris",
+      "isCorrect": true,
+      "feedback": "Correct! Paris is the capital of France."
+    },
+    {
+      "id": "opt3",
+      "text": "Berlin",
+      "isCorrect": false
+    },
+    {
+      "id": "opt4",
+      "text": "Madrid",
+      "isCorrect": false
+    }
+  ],
+  "allowMultiple": false,
+  "randomizeOptions": true,
+  "feedback": {
+    "correct": {
+      "type": "correct",
+      "message": "Great job!",
+      "showAfter": "immediate"
+    },
+    "incorrect": {
+      "type": "incorrect",
+      "message": "Not quite. Try again!",
+      "showAfter": "immediate"
+    },
+    "hints": [
+      "Think about French culture",
+      "It's known for the Eiffel Tower"
+    ]
+  },
+  "maxAttempts": 3,
+  "metadata": {
+    "tags": ["geography", "europe"],
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+}

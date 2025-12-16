@@ -1,0 +1,17 @@
+{
+  "id": "q2",
+  "type": "short-answer",
+  "question": "What is the chemical symbol for water?",
+  "points": 5,
+  "correctAnswers": ["H2O", "h2o"],
+  "caseSensitive": false,
+  "trimWhitespace": true,
+  "maxLength": 10,
+  "placeholder": "Enter your answer...",
+  "feedback": {
+    "correct": {
+      "type": "correct",
+      "message": "Correct! Water is H2O."
+    }
+  }
+}
