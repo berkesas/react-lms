@@ -901,12 +901,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Issues
 
-Found a bug? Have a feature request? Please open an issue on [GitHub](https://github.com/berkesas/react-lms/issues).
+Found a bug? Have a feature request? Please open an issue on [GitHub](https://github.com/berkesas/picolms/issues).
 
 ## Support
 
-- GitHub Issues: https://github.com/berkesas/react-lms/issues
-- Documentation: https://github.com/berkesas/react-lms#readme
+- GitHub Issues: https://github.com/berkesas/picolms/issues
+- Documentation: https://github.com/berkesas/picolms#readme
 
 ## Acknowledgments
 
@@ -914,4 +914,4 @@ Built with React, TypeScript, and Rollup
 
 ## Copyright
 
-Copyright (c) 2024 Nazar Mammedov
+Copyright (c) 2024-2026 Nazar Mammedov
