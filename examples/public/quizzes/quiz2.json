@@ -1,0 +1,43 @@
+{
+  "id": "quiz-capitals-1",
+  "title": "Capitals of the World Quiz",
+  "description": "Test your knowledge of world capitals",
+  "instructions": "Read each question carefully and select the best answer",
+  "submissionMode": "quiz-level",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple-choice",
+      "question": "What is the capital of France?",
+      "points": 10,
+      "options": [
+        { "id": "opt1", "text": "London", "isCorrect": false },
+        { "id": "opt2", "text": "Paris", "isCorrect": true },
+        { "id": "opt3", "text": "Berlin", "isCorrect": false },
+        { "id": "opt4", "text": "Rome", "isCorrect": false }
+      ],
+      "allowMultiple": false
+    },
+    {
+      "id": "q2",
+      "type": "true-false",
+      "question": "Tokyo is the capital of Japan.",
+      "points": 5,
+      "correctAnswer": true
+    },
+    {
+      "id": "q3",
+      "type": "short-answer",
+      "question": "What is the capital of Australia?",
+      "points": 5,
+      "correctAnswers": ["Canberra"],
+      "caseSensitive": false,
+      "trimWhitespace": true
+    }
+  ],
+  "allowNavigation": true,
+  "showTimer": true,
+  "timeLimit": 600,
+  "requireAllAnswered": false,
+  "allowReview": true
+}

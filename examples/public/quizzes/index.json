@@ -1,0 +1,22 @@
+{
+  "quizzes": [
+    {
+      "id": "quiz1",
+      "title": "React Basics",
+      "description": "Fundamental React concepts",
+      "filePath": "../public/quizzes/quiz1.json"
+    },
+    {
+      "id": "quiz2",
+      "title": "Capitals",
+      "description": "Capitals of the world",
+      "filePath": "../public/quizzes/quiz2.json"
+    },
+    {
+      "id": "quiz3",
+      "title": "Math",
+      "description": "Basic math",
+      "filePath": "../public/quizzes/quiz3.json"
+    }
+  ]
+}

@@ -6,6 +6,44 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "style": "dist/styles/index.css",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./dist/styles/index.css": {
+      "default": "./dist/styles/index.css"
+    },
+    "./styles": {
+      "default": "./dist/styles/index.css"
+    },
+    "./context": {
+      "types": "./dist/esm/context/index.d.ts",
+      "import": "./dist/esm/context/index.js",
+      "require": "./dist/cjs/context/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/esm/hooks/index.d.ts",
+      "import": "./dist/esm/hooks/index.js",
+      "require": "./dist/cjs/hooks/index.js"
+    },
+    "./utils": {
+      "types": "./dist/esm/utils/index.d.ts",
+      "import": "./dist/esm/utils/index.js",
+      "require": "./dist/cjs/utils/index.js"
+    },
+    "./types": {
+      "types": "./dist/esm/types/index.d.ts",
+      "import": "./dist/esm/types/index.js",
+      "require": "./dist/cjs/types/index.js"
+    },
+    "./components": {
+      "types": "./dist/esm/components/index.d.ts",
+      "import": "./dist/esm/components/index.js",
+      "require": "./dist/cjs/components/index.js"
+    }
+  },
   "files": [
     "dist",
     "README.md",
@@ -70,5 +108,7 @@
     "tslib": "^2.8.1",
     "typescript": "^5.9.3"
   },
-  "sideEffects": false
+  "sideEffects": [
+    "*.css"
+  ]
 }

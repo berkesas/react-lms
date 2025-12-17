@@ -912,6 +912,6 @@ Found a bug? Have a feature request? Please open an issue on [GitHub](https://gi
 
 Built with React, TypeScript, and Rollup
 
----
+## Copyright
 
 Copyright (c) 2024 Nazar Mammedov

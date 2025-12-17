@@ -1,0 +1,43 @@
+{
+  "id": "quiz-math-1",
+  "title": "Basic Math Quiz",
+  "description": "Test your knowledge of basic math concepts",
+  "instructions": "Read each question carefully and select the best answer",
+  "submissionMode": "quiz-level",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple-choice",
+      "question": "What is 15 + 27?",
+      "points": 10,
+      "options": [
+        { "id": "opt1", "text": "32", "isCorrect": false },
+        { "id": "opt2", "text": "42", "isCorrect": true },
+        { "id": "opt3", "text": "52", "isCorrect": false },
+        { "id": "opt4", "text": "38", "isCorrect": false }
+      ],
+      "allowMultiple": false
+    },
+    {
+      "id": "q2",
+      "type": "true-false",
+      "question": "10 × 5 = 50",
+      "points": 5,
+      "correctAnswer": true
+    },
+    {
+      "id": "q3",
+      "type": "short-answer",
+      "question": "What is 100 ÷ 4?",
+      "points": 5,
+      "correctAnswers": ["25", "25.0"],
+      "caseSensitive": false,
+      "trimWhitespace": true
+    }
+  ],
+  "allowNavigation": true,
+  "showTimer": true,
+  "timeLimit": 600,
+  "requireAllAnswered": false,
+  "allowReview": true
+}

@@ -17,8 +17,6 @@ export interface QuizProps {
   onQuizSubmit?: (result: QuizResult) => void;
   onProgressChange?: (progress: any) => void;
   renderQuestion?: (question: any, index: number) => ReactNode;
-  renderNavigation?: () => ReactNode;
-  renderProgress?: () => ReactNode;
   loadedResult?: LoadedQuizResult;
   storageManager?: QuizStorageManager;
   autoSaveInterval?: number;
@@ -34,8 +32,6 @@ export function Quiz(props: QuizProps) {
     onQuizSubmit,
     onProgressChange,
     renderQuestion,
-    renderNavigation,
-    renderProgress,
     loadedResult,
     storageManager,
     autoSaveInterval,
@@ -53,18 +49,7 @@ export function Quiz(props: QuizProps) {
     autoSaveInterval,
   });
 
-  const {
-    state,
-    progress,
-    currentQuestion,
-    nextQuestion,
-    previousQuestion,
-    canGoNext,
-    canGoPrevious,
-    submitQuiz,
-    canSubmitQuiz,
-    showingResults,
-  } = quizState;
+  const { state, currentQuestion, showingResults } = quizState;
 
   // Default question renderer
   const defaultRenderQuestion = () => {
@@ -80,64 +65,7 @@ export function Quiz(props: QuizProps) {
     );
   };
 
-  // Default navigation renderer
-  const defaultRenderNavigation = () => (
-    <div className="picolms-quiz-navigation">
-      <button
-        type="button"
-        className="picolms-quiz-nav-button picolms-quiz-nav-prev"
-        onClick={previousQuestion}
-        disabled={!canGoPrevious}
-      >
-        ← Previous
-      </button>
-
-      {canGoNext ? (
-        <button
-          type="button"
-          className="picolms-quiz-nav-button picolms-quiz-nav-next"
-          onClick={nextQuestion}
-        >
-          Next →
-        </button>
-      ) : (
-        <button
-          type="button"
-          className="picolms-quiz-nav-button picolms-quiz-nav-submit"
-          onClick={submitQuiz}
-          disabled={!canSubmitQuiz}
-        >
-          Submit Quiz
-        </button>
-      )}
-    </div>
-  );
-
   // Default progress renderer
-  const defaultRenderProgress = () => (
-    <div className="picolms-quiz-progress">
-      <div className="picolms-quiz-progress-bar">
-        <div
-          className="picolms-quiz-progress-fill"
-          style={{ width: `${progress.percentComplete}%` }}
-          role="progressbar"
-          aria-valuenow={progress.percentComplete}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        />
-      </div>
-      <div className="quiz-progress-text">
-        {progress.answeredQuestions} of {progress.totalQuestions} answered
-      </div>
-      {config.timeLimit && (
-        <div className="quiz-time-remaining">
-          Time remaining: {Math.floor((progress.timeRemaining || 0) / 60)}:
-          {String((progress.timeRemaining || 0) % 60).padStart(2, '0')}
-        </div>
-      )}
-    </div>
-  );
-
   if (showingResults && loadedResult) {
     return (
       <QuizProvider value={quizState}>
@@ -163,7 +91,9 @@ export function Quiz(props: QuizProps) {
             <p className="picolms-quiz-description">{config.description}</p>
           )}
           {config.instructions && (
-            <div className="picolms-quiz-instructions">{config.instructions}</div>
+            <div className="picolms-quiz-instructions">
+              {config.instructions}
+            </div>
           )}
         </div>
 
@@ -217,8 +147,6 @@ export function Quiz(props: QuizProps) {
           </div>
         ) : (
           <>
-            {renderProgress ? renderProgress() : defaultRenderProgress()}
-
             <div className="picolms-quiz-content">
               {renderQuestion
                 ? renderQuestion(currentQuestion, state.currentQuestionIndex)
@@ -226,11 +154,6 @@ export function Quiz(props: QuizProps) {
 
               {children}
             </div>
-
-            {config.allowNavigation &&
-              (renderNavigation
-                ? renderNavigation()
-                : defaultRenderNavigation())}
           </>
         )}
       </div>

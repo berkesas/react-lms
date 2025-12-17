@@ -1,0 +1,43 @@
+{
+  "id": "quiz-json-1",
+  "title": "React Advanced Concepts",
+  "description": "Test your knowledge of advanced React topics",
+  "instructions": "Read each question carefully and select the best answer",
+  "submissionMode": "quiz-level",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple-choice",
+      "question": "What is the purpose of useEffect hook?",
+      "points": 10,
+      "options": [
+        { "id": "opt1", "text": "To manage component state", "isCorrect": false },
+        { "id": "opt2", "text": "To perform side effects", "isCorrect": true },
+        { "id": "opt3", "text": "To create context", "isCorrect": false },
+        { "id": "opt4", "text": "To optimize rendering", "isCorrect": false }
+      ],
+      "allowMultiple": false
+    },
+    {
+      "id": "q2",
+      "type": "true-false",
+      "question": "React hooks can only be used in functional components.",
+      "points": 5,
+      "correctAnswer": true
+    },
+    {
+      "id": "q3",
+      "type": "short-answer",
+      "question": "What hook would you use to reference a DOM element?",
+      "points": 5,
+      "correctAnswers": ["useRef", "use ref"],
+      "caseSensitive": false,
+      "trimWhitespace": true
+    }
+  ],
+  "allowNavigation": true,
+  "showTimer": true,
+  "timeLimit": 600,
+  "requireAllAnswered": false,
+  "allowReview": true
+}

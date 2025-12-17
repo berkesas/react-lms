@@ -106,7 +106,7 @@
   background-color: var(--picolms-color-background);
   border: 1px solid var(--picolms-color-border);
   border-radius: var(--picolms-radius-lg);
-  padding: var(--picolms-spacing-xl);
+  padding: var(--picolms-spacing-md);
   box-shadow: var(--picolms-shadow-sm);
 }
 
@@ -114,7 +114,6 @@
   font-size: var(--picolms-font-size-sm);
   font-weight: var(--picolms-font-weight-medium);
   color: var(--picolms-color-text-secondary);
-  margin-bottom: var(--picolms-spacing-md);
 }
 
 /* Quiz Navigation */

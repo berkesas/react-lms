@@ -10,3 +10,6 @@ coverage/
 
 #custom scripts
 add-picolms-prefix.js
+
+#artifacts
+*.tgz
