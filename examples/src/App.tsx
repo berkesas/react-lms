@@ -174,7 +174,7 @@ function HomePage({ setView }: { setView: (view: View) => void }) {
       <div className="home-header">
         <h1>Welcome to Pico LMS Components</h1>
         <p className="subtitle">
-          A comprehensive library of React components for building learning
+          A lightweight library of React components for building learning
           management systems
         </p>
       </div>
