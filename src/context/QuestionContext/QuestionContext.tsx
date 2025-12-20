@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { QuestionConfig, QuestionAnswer, SubmissionStatus, Feedback } from '../../types';
+import type { QuestionConfig, QuestionAnswer, SubmissionStatus, Feedback, ContentRenderer } from '../../types';
 
 export interface QuestionContextValue<T = any> {
   config: QuestionConfig;
@@ -22,6 +22,7 @@ export interface QuestionContextValue<T = any> {
   feedback?: Feedback;
   isLocked: boolean;
   onSubmit?: () => void;
+  renderContent?: ContentRenderer;
 }
 
 const QuestionContext = createContext<QuestionContextValue | null>(null);

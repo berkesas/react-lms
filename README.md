@@ -1,6 +1,10 @@
 # @scinforma/picolms
 
-A comprehensive, lightweight React component library for building learning management systems with full TypeScript support.
+A lightweight React component library for building learning management systems with full TypeScript support.
+
+## Demo page
+
+[https://berkesas.github.io/picolms/](https://berkesas.github.io/picolms/)
 
 [![npm version](https://badge.fury.io/js/@scinforma%2Fpicolms.svg)](https://www.npmjs.com/package/@scinforma/picolms)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -46,7 +50,7 @@ npm install react react-dom
 ### Basic Question
 ```tsx
 import { MultipleChoice } from '@scinforma/picolms';
-import '@scinforma/picolms/dist/styles/index.css';
+import "@scinforma/picolms/styles.css";
 
 function MyQuestion() {
   const config = {
@@ -639,7 +643,7 @@ console.log(quizResult.totalScore, quizResult.percentage);
 
 ### Import Styles
 ```tsx
-import '@scinforma/picolms/dist/styles/index.css';
+import "@scinforma/picolms/styles.css";
 ```
 
 ### Custom Theme
@@ -884,10 +888,6 @@ function MyQuiz() {
 - Firefox (last 2 versions)
 - Safari (last 2 versions)
 - Edge (last 2 versions)
-
-## License
-
-MIT - Copyright (c) 2024 Nazar Mammedov
 
 ## Contributing
 

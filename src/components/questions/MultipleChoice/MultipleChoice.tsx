@@ -1,11 +1,27 @@
 import { useCallback, useMemo } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
-import type { MultipleChoiceConfig, MultipleChoiceAnswer } from '../../../types';
+import type {
+  MultipleChoiceConfig,
+  MultipleChoiceAnswer,
+  ContentRenderer,
+} from '../../../types';
 
-export interface MultipleChoiceProps extends Omit<BaseQuestionProps<MultipleChoiceAnswer>, 'config'> {
+export interface MultipleChoiceProps extends Omit<
+  BaseQuestionProps<MultipleChoiceAnswer>,
+  'config'
+> {
   config: MultipleChoiceConfig;
+  renderContent?: ContentRenderer;
 }
+
+/**
+ * Default content renderer - renders plain text safely
+ * Users can override with custom renderer for Markdown/HTML support
+ */
+const defaultContentRenderer: ContentRenderer = (content) => {
+  return <span>{content}</span>;
+};
 
 /**
  * Fisher-Yates shuffle algorithm for randomizing array order
@@ -15,15 +31,15 @@ export interface MultipleChoiceProps extends Omit<BaseQuestionProps<MultipleChoi
  */
 function shuffleArray<T>(array: T[], seed?: number): T[] {
   const shuffled = [...array];
-  
+
   // Use seed for deterministic shuffling (same shuffle per question)
   const random = seed ? seededRandom(seed) : Math.random;
-  
+
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  
+
   return shuffled;
 }
 
@@ -33,7 +49,7 @@ function shuffleArray<T>(array: T[], seed?: number): T[] {
  * @returns Random number generator function
  */
 function seededRandom(seed: number) {
-  return function() {
+  return function () {
     seed = (seed * 9301 + 49297) % 233280;
     return seed / 233280;
   };
@@ -41,46 +57,67 @@ function seededRandom(seed: number) {
 
 function MultipleChoiceContent() {
   const context = useQuestionContext<MultipleChoiceAnswer>();
-  const { config, answer, setAnswer, isLocked, validation } = context;
-  
+  const { config, answer, setAnswer, isLocked, validation, renderContent } =
+    context;
+
+  // Use renderContent from context, fallback to default safe renderer
+  const contentRenderer = renderContent || defaultContentRenderer;
+
   if (config.type !== 'multiple-choice') {
-    throw new Error('MultipleChoice component requires a multiple-choice config');
+    throw new Error(
+      'MultipleChoice component requires a multiple-choice config'
+    );
   }
 
   // Shuffle options if enabled, memoized to prevent re-shuffling on re-renders
   const displayOptions = useMemo(() => {
     if (config.shuffleOptions) {
       // Use question ID as seed for consistent shuffling per question
-      const seed = config.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const seed = config.id
+        .split('')
+        .reduce((acc, char) => acc + char.charCodeAt(0), 0);
       return shuffleArray(config.options, seed);
     }
     return config.options;
   }, [config.options, config.shuffleOptions, config.id]);
 
-  const selectedIds = Array.isArray(answer.value) ? answer.value : answer.value ? [answer.value] : [];
+  const selectedIds = Array.isArray(answer.value)
+    ? answer.value
+    : answer.value
+      ? [answer.value]
+      : [];
 
-  const handleOptionChange = useCallback((optionId: string) => {
-    if (isLocked) return;
+  const handleOptionChange = useCallback(
+    (optionId: string) => {
+      if (isLocked) return;
 
-    if (config.allowMultiple) {
-      // Multi-select mode
-      const newSelection = selectedIds.includes(optionId)
-        ? selectedIds.filter(id => id !== optionId)
-        : [...selectedIds, optionId];
+      if (config.allowMultiple) {
+        // Multi-select mode
+        const newSelection = selectedIds.includes(optionId)
+          ? selectedIds.filter((id) => id !== optionId)
+          : [...selectedIds, optionId];
 
-      // Check min/max selections
-      if (config.maxSelections && newSelection.length > config.maxSelections) {
-        return;
+        // Check min/max selections
+        if (
+          config.maxSelections &&
+          newSelection.length > config.maxSelections
+        ) {
+          return;
+        }
+
+        setAnswer(newSelection as MultipleChoiceAnswer);
+      } else {
+        // Single select mode
+        setAnswer(optionId as MultipleChoiceAnswer);
       }
+    },
+    [isLocked, config, selectedIds, setAnswer]
+  );
 
-      setAnswer(newSelection as MultipleChoiceAnswer);
-    } else {
-      // Single select mode
-      setAnswer(optionId as MultipleChoiceAnswer);
-    }
-  }, [isLocked, config, selectedIds, setAnswer]);
-
-  const renderOption = (option: typeof config.options[number], _index: number) => {
+  const renderOption = (
+    option: (typeof config.options)[number],
+    _index: number
+  ) => {
     const isSelected = selectedIds.includes(option.id);
     const inputType = config.allowMultiple ? 'checkbox' : 'radio';
     const inputName = `question-${config.id}`;
@@ -98,9 +135,18 @@ function MultipleChoiceContent() {
             checked={isSelected}
             onChange={() => handleOptionChange(option.id)}
             disabled={isLocked}
-            aria-describedby={option.feedback ? `feedback-${option.id}` : undefined}
+            aria-describedby={
+              option.feedback ? `feedback-${option.id}` : undefined
+            }
           />
-          <span className="picolms-mc-option-text">{option.text}</span>
+          {/* ✅ Use custom renderer for option text */}
+          <span className="picolms-mc-option-text">
+            {contentRenderer(option.text, {
+              type: 'option',
+              questionId: config.id,
+              optionId: option.id,
+            })}
+          </span>
           {option.media && (
             <div className="picolms-mc-option-media">
               {option.media.type === 'image' && (
@@ -110,8 +156,16 @@ function MultipleChoiceContent() {
           )}
         </label>
         {option.feedback && isSelected && context.showFeedback && (
-          <div id={`feedback-${option.id}`} className="picolms-mc-option-feedback">
-            {option.feedback}
+          <div
+            id={`feedback-${option.id}`}
+            className="picolms-mc-option-feedback"
+          >
+            {/* ✅ Use custom renderer for feedback */}
+            {contentRenderer(option.feedback, {
+              type: 'feedback',
+              questionId: config.id,
+              optionId: option.id,
+            })}
           </div>
         )}
       </div>
@@ -121,62 +175,94 @@ function MultipleChoiceContent() {
   return (
     <div className="picolms-multiple-choice-question">
       <div className="picolms-question-header">
-        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
-        <div 
-          className="picolms-question-text"
-          dangerouslySetInnerHTML={{ __html: config.question }}
-        />
+        {config.title && (
+          <h3 className="picolms-question-title">{config.title}</h3>
+        )}
+        {/* ✅ Use custom renderer for question text */}
+        <div className="picolms-question-text">
+          {contentRenderer(config.question, {
+            type: 'question',
+            questionId: config.id,
+          })}
+        </div>
         {config.instructions && (
-          <p className="picolms-question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">
+            {/* ✅ Use custom renderer for instructions */}
+            {contentRenderer(config.instructions, {
+              type: 'instruction',
+              questionId: config.id,
+            })}
+          </p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
         <div className="picolms-question-media">
-          {config.media.map(media => (
+          {config.media.map((media) => (
             <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
+              {media.caption && (
+                <p className="picolms-media-caption">{media.caption}</p>
+              )}
             </div>
           ))}
         </div>
       )}
 
-      <div className="picolms-mc-options" role="group" aria-label="Answer options">
+      <div
+        className="picolms-mc-options"
+        role="group"
+        aria-label="Answer options"
+      >
         {displayOptions.map((option, index) => renderOption(option, index))}
       </div>
 
       {validation.errors.length > 0 && (
         <div className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="picolms-error-message">{error}</p>
+            <p key={index} className="picolms-error-message">
+              {error}
+            </p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
+        <div
+          className={`picolms-question-feedback feedback-${context.feedback.type}`}
+          role="status"
+        >
           {context.feedback.message}
         </div>
       )}
 
-      {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="picolms-question-hints">
-          <details>
-            <summary>Show Hint</summary>
-            {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="picolms-hint-text">{hint}</p>
-            ))}
-          </details>
-        </div>
-      )}
+      {config.feedback?.hints &&
+        config.feedback.hints.length > 0 &&
+        !isLocked && (
+          <div className="picolms-question-hints">
+            <details>
+              <summary>Show Hint</summary>
+              {config.feedback.hints.map((hint, index) => (
+                <p key={index} className="picolms-hint-text">
+                  {/* ✅ Use custom renderer for hints */}
+                  {contentRenderer(hint, {
+                    type: 'hint',
+                    questionId: config.id,
+                  })}
+                </p>
+              ))}
+            </details>
+          </div>
+        )}
 
       <div className="picolms-question-meta">
         <span className="picolms-question-points">{config.points} points</span>
         {config.difficulty && (
-          <span className="picolms-question-difficulty">{config.difficulty}</span>
+          <span className="picolms-question-difficulty">
+            {config.difficulty}
+          </span>
         )}
       </div>
     </div>
@@ -184,10 +270,14 @@ function MultipleChoiceContent() {
 }
 
 export function MultipleChoice(props: MultipleChoiceProps) {
-  const { config, ...baseProps } = props;
+  const { config, renderContent, ...baseProps } = props;
 
   return (
-    <BaseQuestion<MultipleChoiceAnswer> config={config} {...baseProps}>
+    <BaseQuestion<MultipleChoiceAnswer>
+      config={config}
+      renderContent={renderContent}
+      {...baseProps}
+    >
       <MultipleChoiceContent />
     </BaseQuestion>
   );

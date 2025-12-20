@@ -1,6 +1,6 @@
 {
   "name": "@scinforma/picolms",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Reusable React components for learning management systems - questions, quizzes, and assessments",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -12,12 +12,8 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
-    "./dist/styles/index.css": {
-      "default": "./dist/styles/index.css"
-    },
-    "./styles": {
-      "default": "./dist/styles/index.css"
-    },
+    "./styles.css": "./dist/styles/index.css",
+    "./styles": "./dist/styles/index.css",
     "./context": {
       "types": "./dist/esm/context/index.d.ts",
       "import": "./dist/esm/context/index.js",
@@ -42,7 +38,8 @@
       "types": "./dist/esm/components/index.d.ts",
       "import": "./dist/esm/components/index.js",
       "require": "./dist/cjs/components/index.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
@@ -65,15 +62,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/berkesas/react-lms.git"
+    "url": "git+https://github.com/berkesas/picolms.git"
   },
   "bugs": {
-    "url": "https://github.com/berkesas/react-lms/issues"
+    "url": "https://github.com/berkesas/picolms/issues"
   },
-  "homepage": "https://github.com/berkesas/react-lms#readme",
+  "homepage": "https://github.com/berkesas/picolms#readme",
   "scripts": {
     "build": "rollup -c && npm run copy-styles",
-    "copy-styles": "copyfiles -u 1 \"src/styles/**/*\" dist/styles",
+    "copy-styles": "copyfiles -u 2 \"src/styles/**/*\" dist/styles",
     "clean": "rimraf dist",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
@@ -109,6 +106,6 @@
     "typescript": "^5.9.3"
   },
   "sideEffects": [
-    "*.css"
+    "**/*.css"
   ]
 }

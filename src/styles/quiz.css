@@ -34,7 +34,6 @@
   padding: var(--picolms-spacing-md);
   background-color: var(--picolms-color-info-light);
   border-radius: var(--picolms-radius-md);
-  border-left: 4px solid var(--picolms-color-primary);
 }
 
 /* Quiz Progress */

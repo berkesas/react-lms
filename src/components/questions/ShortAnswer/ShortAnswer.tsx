@@ -1,15 +1,27 @@
 import { useCallback, ChangeEvent } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
-import type { ShortAnswerConfig, ShortAnswerAnswer } from '../../../types';
+import type { ShortAnswerConfig, ShortAnswerAnswer, ContentRenderer } from '../../../types';
 
 export interface ShortAnswerProps extends Omit<BaseQuestionProps<ShortAnswerAnswer>, 'config'> {
   config: ShortAnswerConfig;
+  renderContent?: ContentRenderer;
 }
+
+/**
+ * Default content renderer - renders plain text safely
+ * Users can override with custom renderer for Markdown/HTML support
+ */
+const defaultContentRenderer: ContentRenderer = (content) => {
+  return <span>{content}</span>;
+};
 
 function ShortAnswerContent() {
   const context = useQuestionContext<ShortAnswerAnswer>();
-  const { config, answer, setAnswer, isLocked, validation } = context;
+  const { config, answer, setAnswer, isLocked, validation, renderContent } = context;
+
+  // Use renderContent from context, fallback to default safe renderer
+  const contentRenderer = renderContent || defaultContentRenderer;
   
   if (config.type !== 'short-answer') {
     throw new Error('ShortAnswer component requires a short-answer config');
@@ -40,24 +52,37 @@ function ShortAnswerContent() {
   return (
     <div className="picolms-short-answer-question">
       <div className="picolms-question-header">
-        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
-        <div 
-          className="picolms-question-text"
-          dangerouslySetInnerHTML={{ __html: config.question }}
-        />
+        {config.title && (
+          <h3 className="picolms-question-title">{config.title}</h3>
+        )}
+        {/* ✅ Use custom renderer for question text */}
+        <div className="picolms-question-text">
+          {contentRenderer(config.question, {
+            type: 'question',
+            questionId: config.id
+          })}
+        </div>
         {config.instructions && (
-          <p className="picolms-question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">
+            {/* ✅ Use custom renderer for instructions */}
+            {contentRenderer(config.instructions, {
+              type: 'instruction',
+              questionId: config.id
+            })}
+          </p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
         <div className="picolms-question-media">
-          {config.media.map(media => (
+          {config.media.map((media) => (
             <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
+              {media.caption && (
+                <p className="picolms-media-caption">{media.caption}</p>
+              )}
             </div>
           ))}
         </div>
@@ -107,7 +132,13 @@ function ShortAnswerContent() {
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="picolms-hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">
+                {/* ✅ Use custom renderer for hints */}
+                {contentRenderer(hint, {
+                  type: 'hint',
+                  questionId: config.id
+                })}
+              </p>
             ))}
           </details>
         </div>
@@ -124,10 +155,14 @@ function ShortAnswerContent() {
 }
 
 export function ShortAnswer(props: ShortAnswerProps) {
-  const { config, ...baseProps } = props;
+  const { config, renderContent, ...baseProps } = props;
 
   return (
-    <BaseQuestion<ShortAnswerAnswer> config={config} {...baseProps}>
+    <BaseQuestion<ShortAnswerAnswer> 
+      config={config}
+      renderContent={renderContent}
+      {...baseProps}
+    >
       <ShortAnswerContent />
     </BaseQuestion>
   );

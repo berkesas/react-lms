@@ -1,15 +1,57 @@
 import { useCallback, useMemo } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
-import type { MatchingConfig, MatchingAnswer } from '../../../types';
+import type { MatchingConfig, MatchingAnswer, ContentRenderer } from '../../../types';
 
 export interface MatchingProps extends Omit<BaseQuestionProps<MatchingAnswer>, 'config'> {
   config: MatchingConfig;
+  renderContent?: ContentRenderer;
+}
+
+/**
+ * Default content renderer - renders plain text safely
+ * Users can override with custom renderer for Markdown/HTML support
+ */
+const defaultContentRenderer: ContentRenderer = (content) => {
+  return <span>{content}</span>;
+};
+
+/**
+ * Fisher-Yates shuffle algorithm for randomizing array order
+ * @param array - Array to shuffle
+ * @param seed - Optional seed for deterministic shuffling
+ * @returns Shuffled copy of the array
+ */
+function shuffleArray<T>(array: T[], seed?: number): T[] {
+  const shuffled = [...array];
+  const random = seed ? seededRandom(seed) : Math.random;
+  
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  
+  return shuffled;
+}
+
+/**
+ * Seeded random number generator for consistent shuffling
+ * @param seed - Seed value for reproducible randomness
+ * @returns Random number generator function
+ */
+function seededRandom(seed: number) {
+  return function () {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
 }
 
 function MatchingContent() {
   const context = useQuestionContext<MatchingAnswer>();
-  const { config, answer, setAnswer, isLocked, validation } = context;
+  const { config, answer, setAnswer, isLocked, validation, renderContent } = context;
+
+  // Use renderContent from context, fallback to default safe renderer
+  const contentRenderer = renderContent || defaultContentRenderer;
   
   if (config.type !== 'matching') {
     throw new Error('Matching component requires a matching config');
@@ -17,7 +59,7 @@ function MatchingContent() {
 
   const matches = answer.value || {};
 
-  // Randomize if configured
+  // Randomize if configured - using seeded shuffle for consistency
   const leftItems = useMemo(() => {
     const items = config.pairs.map(pair => ({
       id: pair.id,
@@ -26,10 +68,11 @@ function MatchingContent() {
     }));
     
     if (config.randomizeLeft) {
-      return [...items].sort(() => Math.random() - 0.5);
+      const seed = config.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      return shuffleArray(items, seed);
     }
     return items;
-  }, [config.pairs, config.randomizeLeft]);
+  }, [config.pairs, config.randomizeLeft, config.id]);
 
   const rightItems = useMemo(() => {
     const items = config.pairs.map(pair => ({
@@ -39,10 +82,11 @@ function MatchingContent() {
     }));
     
     if (config.randomizeRight) {
-      return [...items].sort(() => Math.random() - 0.5);
+      const seed = config.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + 1000;
+      return shuffleArray(items, seed);
     }
     return items;
-  }, [config.pairs, config.randomizeRight]);
+  }, [config.pairs, config.randomizeRight, config.id]);
 
   const handleMatch = useCallback((leftId: string, rightId: string) => {
     if (isLocked) return;
@@ -75,24 +119,37 @@ function MatchingContent() {
   return (
     <div className="picolms-matching-question">
       <div className="picolms-question-header">
-        {config.title && <h3 className="picolms-question-title">{config.title}</h3>}
-        <div 
-          className="picolms-question-text"
-          dangerouslySetInnerHTML={{ __html: config.question }}
-        />
+        {config.title && (
+          <h3 className="picolms-question-title">{config.title}</h3>
+        )}
+        {/* ✅ Use custom renderer for question text */}
+        <div className="picolms-question-text">
+          {contentRenderer(config.question, {
+            type: 'question',
+            questionId: config.id
+          })}
+        </div>
         {config.instructions && (
-          <p className="picolms-question-instructions">{config.instructions}</p>
+          <p className="picolms-question-instructions">
+            {/* ✅ Use custom renderer for instructions */}
+            {contentRenderer(config.instructions, {
+              type: 'instruction',
+              questionId: config.id
+            })}
+          </p>
         )}
       </div>
 
       {config.media && config.media.length > 0 && (
         <div className="picolms-question-media">
-          {config.media.map(media => (
+          {config.media.map((media) => (
             <div key={media.id} className="picolms-media-item">
               {media.type === 'image' && (
                 <img src={media.url} alt={media.alt || ''} />
               )}
-              {media.caption && <p className="picolms-media-caption">{media.caption}</p>}
+              {media.caption && (
+                <p className="picolms-media-caption">{media.caption}</p>
+              )}
             </div>
           ))}
         </div>
@@ -115,7 +172,14 @@ function MatchingContent() {
                       className="picolms-matching-item-image"
                     />
                   )}
-                  <span className="matching-item-text">{item.content}</span>
+                  {/* ✅ Use custom renderer for left item text */}
+                  <span className="matching-item-text">
+                    {contentRenderer(item.content, {
+                      type: 'option',
+                      questionId: config.id,
+                      optionId: item.id
+                    })}
+                  </span>
                 </div>
                 
                 <div className="picolms-matching-controls">
@@ -152,7 +216,12 @@ function MatchingContent() {
                 
                 {matchedRight && (
                   <div className="picolms-matching-preview">
-                    → {matchedRight.content}
+                    → {/* ✅ Use custom renderer for matched preview */}
+                    {contentRenderer(matchedRight.content, {
+                      type: 'option',
+                      questionId: config.id,
+                      optionId: matchedRight.id
+                    })}
                   </div>
                 )}
               </div>
@@ -178,7 +247,14 @@ function MatchingContent() {
                       className="picolms-matching-item-image"
                     />
                   )}
-                  <span className="matching-item-text">{item.content}</span>
+                  {/* ✅ Use custom renderer for right item text */}
+                  <span className="matching-item-text">
+                    {contentRenderer(item.content, {
+                      type: 'option',
+                      questionId: config.id,
+                      optionId: item.id
+                    })}
+                  </span>
                 </div>
                 {isUsed && <span className="picolms-matching-used-indicator">✓</span>}
               </div>
@@ -206,7 +282,13 @@ function MatchingContent() {
           <details>
             <summary>Show Hint</summary>
             {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="picolms-hint-text">{hint}</p>
+              <p key={index} className="picolms-hint-text">
+                {/* ✅ Use custom renderer for hints */}
+                {contentRenderer(hint, {
+                  type: 'hint',
+                  questionId: config.id
+                })}
+              </p>
             ))}
           </details>
         </div>
@@ -223,10 +305,14 @@ function MatchingContent() {
 }
 
 export function Matching(props: MatchingProps) {
-  const { config, ...baseProps } = props;
+  const { config, renderContent, ...baseProps } = props;
 
   return (
-    <BaseQuestion<MatchingAnswer> config={config} {...baseProps}>
+    <BaseQuestion<MatchingAnswer> 
+      config={config}
+      renderContent={renderContent}
+      {...baseProps}
+    >
       <MatchingContent />
     </BaseQuestion>
   );
