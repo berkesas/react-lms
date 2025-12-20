@@ -16,7 +16,8 @@
         { "id": "opt3", "text": "To create context", "isCorrect": false },
         { "id": "opt4", "text": "To optimize rendering", "isCorrect": false }
       ],
-      "allowMultiple": false
+      "allowMultiple": false,
+      "shuffleOptions": true
     },
     {
       "id": "q2",
@@ -39,5 +40,6 @@
   "showTimer": true,
   "timeLimit": 600,
   "requireAllAnswered": false,
-  "allowReview": true
+  "allowReview": true,
+  "shuffleQuestions": true
 }

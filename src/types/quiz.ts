@@ -19,7 +19,7 @@ export interface QuizConfig {
   // Navigation
   allowNavigation?: boolean; // Can users navigate between questions?
   allowSkip?: boolean; // Can users skip questions?
-  randomizeQuestions?: boolean;
+  shuffleQuestions?: boolean;
   
   // Timing
   timeLimit?: number; // Total time limit in seconds

@@ -1,18 +1,23 @@
 import { ReactNode, useMemo, useCallback, useState } from 'react';
-import type { 
-  QuestionConfig, 
-  Feedback, 
-  ValidationResult 
+import type {
+  QuestionConfig,
+  Feedback,
+  ValidationResult,
+  ContentRenderer,
 } from '../../../types';
 import { useQuestionState } from '../../../hooks/questions/useQuestionState';
 import { useQuestionValidation } from '../../../hooks/questions/useQuestionValidation';
 import { useQuestionTimer } from '../../../hooks/questions/useQuestionTimer';
-import { QuestionProvider, QuestionContextValue } from '../../../context/QuestionContext';
+import {
+  QuestionProvider,
+  QuestionContextValue,
+} from '../../../context/QuestionContext';
 
 export interface BaseQuestionProps<T = any> {
   config: QuestionConfig;
   initialAnswer?: T;
-  children?: ReactNode;  // Make children optional
+  children?: ReactNode;
+  renderContent?: ContentRenderer; // ✅ NEW: Custom content renderer
   onAnswerChange?: (answer: any) => void;
   onSubmit?: (answer: any) => void;
   onValidationChange?: (result: ValidationResult) => void;
@@ -27,6 +32,7 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
     config,
     initialAnswer,
     children,
+    renderContent, // ✅ Extract renderContent
     onAnswerChange,
     onSubmit,
     onValidationChange,
@@ -44,11 +50,13 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
   });
 
   // Validation
-  const validationRules = 'validation' in config ? config.validation?.rules : undefined;
+  const validationRules =
+    'validation' in config ? config.validation?.rules : undefined;
   const questionValidation = useQuestionValidation<T>({
     value: questionState.answer.value,
     rules: validationRules,
-    validateOnChange: 'validation' in config ? config.validation?.validateOnChange : false,
+    validateOnChange:
+      'validation' in config ? config.validation?.validateOnChange : false,
     onValidationChange,
   });
 
@@ -65,7 +73,9 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
   });
 
   // Feedback state
-  const [currentFeedback, setCurrentFeedback] = useState<Feedback | undefined>();
+  const [currentFeedback, setCurrentFeedback] = useState<
+    Feedback | undefined
+  >();
 
   // Check if question is locked
   const isLocked = useMemo(() => {
@@ -73,15 +83,22 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
       disabled ||
       questionState.status === 'submitted' ||
       questionState.status === 'graded' ||
-      (config.maxAttempts !== undefined && questionState.attemptNumber > config.maxAttempts) ||
+      (config.maxAttempts !== undefined &&
+        questionState.attemptNumber > config.maxAttempts) ||
       timer.isTimeUp
     );
-  }, [disabled, questionState.status, questionState.attemptNumber, config.maxAttempts, timer.isTimeUp]);
+  }, [
+    disabled,
+    questionState.status,
+    questionState.attemptNumber,
+    config.maxAttempts,
+    timer.isTimeUp,
+  ]);
 
   // Handle validation
   const handleValidate = useCallback(async () => {
     const result = await questionValidation.validate();
-    
+
     if (!result.isValid && config.feedback?.incorrect) {
       setCurrentFeedback(config.feedback.incorrect);
     }
@@ -98,7 +115,11 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
       }
 
       // Show appropriate feedback
-      if (showFeedback && questionValidation.validation.isValid && config.feedback?.correct) {
+      if (
+        showFeedback &&
+        questionValidation.validation.isValid &&
+        config.feedback?.correct
+      ) {
         setCurrentFeedback(config.feedback.correct);
       }
     });
@@ -135,6 +156,7 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
       feedback: currentFeedback,
       isLocked,
       onSubmit: handleSubmit,
+      renderContent, // ✅ NEW: Pass renderContent to context
     }),
     [
       config,
@@ -145,6 +167,7 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
       currentFeedback,
       isLocked,
       handleSubmit,
+      renderContent,
     ]
   );
 
@@ -153,7 +176,11 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
       <div
         className={`picolms-base-question ${className || ''}`}
         role="group"
-        aria-label={ariaLabel || config.accessibility?.ariaLabel || `Question: ${config.question}`}
+        aria-label={
+          ariaLabel ||
+          config.accessibility?.ariaLabel ||
+          `Question: ${config.question}`
+        }
         aria-describedby={config.accessibility?.ariaDescribedBy}
       >
         {children}

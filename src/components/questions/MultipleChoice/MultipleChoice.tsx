@@ -1,10 +1,42 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
 import type { MultipleChoiceConfig, MultipleChoiceAnswer } from '../../../types';
 
 export interface MultipleChoiceProps extends Omit<BaseQuestionProps<MultipleChoiceAnswer>, 'config'> {
   config: MultipleChoiceConfig;
+}
+
+/**
+ * Fisher-Yates shuffle algorithm for randomizing array order
+ * @param array - Array to shuffle
+ * @param seed - Optional seed for deterministic shuffling
+ * @returns Shuffled copy of the array
+ */
+function shuffleArray<T>(array: T[], seed?: number): T[] {
+  const shuffled = [...array];
+  
+  // Use seed for deterministic shuffling (same shuffle per question)
+  const random = seed ? seededRandom(seed) : Math.random;
+  
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  
+  return shuffled;
+}
+
+/**
+ * Seeded random number generator for consistent shuffling
+ * @param seed - Seed value for reproducible randomness
+ * @returns Random number generator function
+ */
+function seededRandom(seed: number) {
+  return function() {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
 }
 
 function MultipleChoiceContent() {
@@ -14,6 +46,16 @@ function MultipleChoiceContent() {
   if (config.type !== 'multiple-choice') {
     throw new Error('MultipleChoice component requires a multiple-choice config');
   }
+
+  // Shuffle options if enabled, memoized to prevent re-shuffling on re-renders
+  const displayOptions = useMemo(() => {
+    if (config.shuffleOptions) {
+      // Use question ID as seed for consistent shuffling per question
+      const seed = config.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      return shuffleArray(config.options, seed);
+    }
+    return config.options;
+  }, [config.options, config.shuffleOptions, config.id]);
 
   const selectedIds = Array.isArray(answer.value) ? answer.value : answer.value ? [answer.value] : [];
 
@@ -103,7 +145,7 @@ function MultipleChoiceContent() {
       )}
 
       <div className="picolms-mc-options" role="group" aria-label="Answer options">
-        {config.options.map((option, index) => renderOption(option, index))}
+        {displayOptions.map((option, index) => renderOption(option, index))}
       </div>
 
       {validation.errors.length > 0 && (

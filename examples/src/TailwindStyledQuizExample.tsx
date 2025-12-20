@@ -21,7 +21,7 @@ export function TailwindStyledQuizExample() {
   const [quizConfig, setQuizConfig] = useState<QuizConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [autoSaveInterval, setAutoSaveInterval] = useState(2000);
+  const [autoSaveInterval, setAutoSaveInterval] = useState(20000);
 
   useEffect(() => {
     loadQuizData('../public/quizzes/quiz1.json');
@@ -310,7 +310,7 @@ function StyledQuizWithStorage({
               Best Score
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-green-900">
-              {storage.statistics.bestScore.toFixed(1)}%
+              {storage.statistics.bestScore.toFixed(1)}
             </div>
           </div>
           <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-3 sm:p-4 border border-purple-200">
@@ -318,7 +318,7 @@ function StyledQuizWithStorage({
               Average Score
             </div>
             <div className="text-2xl sm:text-3xl font-bold text-purple-900">
-              {storage.statistics.averageScore.toFixed(1)}%
+              {storage.statistics.averageScore.toFixed(1)}
             </div>
           </div>
         </div>
@@ -426,9 +426,6 @@ function StyledQuizContent() {
             <div className="text-sm font-semibold text-indigo-600 mb-2 uppercase tracking-wide">
               Question {currentQuestion.id}
             </div>
-            <h2 className="text-xl font-bold text-gray-900 leading-relaxed">
-              {currentQuestion.question}
-            </h2>
             {currentQuestion.points && (
               <div className="mt-2 inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
                 <svg

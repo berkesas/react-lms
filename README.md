@@ -463,7 +463,7 @@ function MyQuiz() {
     { id: '2', text: 'Option 2', isCorrect: false },
   ],
   allowMultiple: false,  // or true for multi-select
-  randomizeOptions: true,
+  shuffleOptions: true,
   feedback: {
     correct: { type: 'correct', message: 'Well done!' },
     incorrect: { type: 'incorrect', message: 'Try again!' },
@@ -554,7 +554,7 @@ const quizConfig: QuizConfig = {
   // Navigation
   allowNavigation: true,
   allowSkip: false,
-  randomizeQuestions: false,
+  shuffleQuestions: false,
   
   // Timing
   timeLimit: 300,  // seconds

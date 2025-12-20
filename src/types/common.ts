@@ -1,6 +1,23 @@
+import { ReactNode } from "react";
+
 /**
  * Common types used across all components
  */
+
+/**
+ * Content renderer function type
+ * @param content - The content to render (string, HTML, Markdown, etc.)
+ * @param context - Additional context about where/how content is used
+ * @returns Rendered React node
+ */
+export type ContentRenderer = (
+  content: string,
+  context?: {
+    type: 'question' | 'option' | 'instruction' | 'feedback' | 'hint';
+    questionId?: string;
+    optionId?: string;
+  }
+) => ReactNode;
 
 // Base metadata that all entities can have
 export interface BaseMetadata {

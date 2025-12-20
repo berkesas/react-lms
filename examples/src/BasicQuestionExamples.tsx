@@ -32,7 +32,7 @@ export function MultipleChoiceExample() {
       { id: 'opt4', text: 'Madrid', isCorrect: false },
     ],
     allowMultiple: false,
-    randomizeOptions: false,
+    shuffleOptions: false,
     feedback: {
       correct: {
         type: 'correct',

@@ -34,6 +34,7 @@
   padding: var(--picolms-spacing-md);
   background-color: var(--picolms-color-info-light);
   border-radius: var(--picolms-radius-md);
+  border-left: 4px solid var(--picolms-color-primary);
 }
 
 /* Quiz Progress */
@@ -116,6 +117,55 @@
   color: var(--picolms-color-text-secondary);
 }
 
+/* Quiz Results Summary (NEW) */
+.picolms-quiz-results-summary {
+  padding: 2rem;
+  background-color: var(--picolms-color-background-secondary, #f3f4f6);
+  border-radius: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border: 2px solid var(--picolms-color-border, #e5e7eb);
+}
+
+.picolms-results-heading {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--picolms-color-text, #1f2937);
+  margin-bottom: 1.5rem;
+}
+
+.picolms-results-score {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--picolms-color-text, #1f2937);
+  margin: 1rem 0;
+  line-height: 1;
+}
+
+.picolms-results-percentage {
+  font-size: 1.5rem;
+  color: var(--picolms-color-text-secondary, #6b7280);
+  margin-bottom: 1.5rem;
+}
+
+.picolms-results-status {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.picolms-results-passed {
+  background-color: var(--picolms-color-success-light, #d1fae5);
+  color: var(--picolms-color-success, #10b981);
+}
+
+.picolms-results-failed {
+  background-color: var(--picolms-color-error-light, #fee2e2);
+  color: var(--picolms-color-error, #ef4444);
+}
+
 /* Quiz Navigation */
 .picolms-quiz-navigation {
   margin-top: var(--picolms-spacing-xl);
@@ -156,13 +206,13 @@
   transform: translateY(-2px);
 }
 
-.quiz-question-item.current {
+.picolms-quiz-question-item.current {
   border-color: var(--picolms-color-primary);
   background-color: var(--picolms-color-primary);
   color: white;
 }
 
-.quiz-question-item.answered {
+.picolms-quiz-question-item.answered {
   background-color: var(--picolms-color-success-light);
   border-color: var(--picolms-color-success);
 }
@@ -282,7 +332,7 @@
   padding: var(--picolms-spacing-lg);
 }
 
-.quiz-review-question.unanswered {
+.picolms-quiz-review-question.unanswered {
   border-color: var(--picolms-color-warning);
   background-color: var(--picolms-color-warning-light);
 }
@@ -397,8 +447,56 @@
   margin-bottom: var(--picolms-spacing-md);
 }
 
-/* results */
-/* Quiz Results */
+/* Quiz Results Summary (UPDATED - No inline styles) */
+.picolms-quiz-results-summary {
+  padding: 2rem;
+  background-color: var(--picolms-color-background-secondary, #f3f4f6);
+  border-radius: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border: 2px solid var(--picolms-color-border, #e5e7eb);
+}
+
+.picolms-results-heading {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--picolms-color-text, #1f2937);
+  margin-bottom: 1.5rem;
+}
+
+.picolms-results-score {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--picolms-color-text, #1f2937);
+  margin: 1rem 0;
+  line-height: 1;
+}
+
+.picolms-results-percentage {
+  font-size: 1.5rem;
+  color: var(--picolms-color-text-secondary, #6b7280);
+  margin-bottom: 1.5rem;
+}
+
+.picolms-results-status {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.picolms-results-passed {
+  background-color: var(--picolms-color-success-light, #d1fae5);
+  color: var(--picolms-color-success, #10b981);
+}
+
+.picolms-results-failed {
+  background-color: var(--picolms-color-error-light, #fee2e2);
+  color: var(--picolms-color-error, #ef4444);
+}
+
+/* Quiz Results (Detailed) */
 .picolms-quiz-results {
   background: white;
   padding: 2rem;
@@ -421,13 +519,6 @@
 .picolms-quiz-results-date {
   color: var(--picolms-color-text-secondary);
   font-size: var(--picolms-font-size-sm);
-}
-
-.picolms-quiz-results-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 3rem;
 }
 
 .picolms-results-score-card {
@@ -462,11 +553,11 @@
   display: inline-block;
 }
 
-.score-status.passed {
+.picolms-score-status.passed {
   background: rgba(16, 185, 129, 0.2);
 }
 
-.score-status.failed {
+.picolms-score-status.failed {
   background: rgba(239, 68, 68, 0.2);
 }
 
@@ -474,6 +565,7 @@
   display: flex;
   justify-content: center;
   gap: 3rem;
+  flex-wrap: wrap;
 }
 
 .picolms-metadata-item {
@@ -510,12 +602,12 @@
   margin-bottom: 1.5rem;
 }
 
-.result-question.correct {
+.picolms-result-question.correct {
   border-color: var(--picolms-color-success);
   background: var(--picolms-color-success-light);
 }
 
-.result-question.incorrect {
+.picolms-result-question.incorrect {
   border-color: var(--picolms-color-error);
   background: var(--picolms-color-error-light);
 }
@@ -634,4 +726,80 @@
   padding: 2rem;
   text-align: center;
   color: var(--picolms-color-error);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .picolms-quiz-results-summary {
+    background-color: var(--picolms-color-background-secondary, #1f2937);
+    border-color: var(--picolms-color-border, #374151);
+  }
+
+  .picolms-results-heading {
+    color: var(--picolms-color-text, #f9fafb);
+  }
+
+  .picolms-results-score {
+    color: var(--picolms-color-text, #f9fafb);
+  }
+
+  .picolms-results-percentage {
+    color: var(--picolms-color-text-secondary, #9ca3af);
+  }
+
+  .picolms-results-passed {
+    background-color: var(--picolms-color-success-dark, #065f46);
+    color: var(--picolms-color-success-light, #6ee7b7);
+  }
+
+  .picolms-results-failed {
+    background-color: var(--picolms-color-error-dark, #7f1d1d);
+    color: var(--picolms-color-error-light, #fca5a5);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .picolms-quiz-container {
+    padding: var(--picolms-spacing-md);
+  }
+
+  .picolms-results-score {
+    font-size: 2.5rem;
+  }
+
+  .picolms-results-percentage {
+    font-size: 1.25rem;
+  }
+
+  .picolms-results-metadata {
+    gap: 1.5rem;
+  }
+
+  .picolms-quiz-nav-buttons {
+    flex-wrap: wrap;
+  }
+
+  .picolms-quiz-nav-button {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .picolms-quiz-title {
+    font-size: var(--picolms-font-size-2xl);
+  }
+
+  .picolms-results-score {
+    font-size: 2rem;
+  }
+
+  .picolms-results-percentage {
+    font-size: 1rem;
+  }
+
+  .picolms-results-heading {
+    font-size: 1.5rem;
+  }
 }

@@ -89,7 +89,7 @@ export interface MultipleChoiceConfig extends BaseQuestionConfig {
   type: 'multiple-choice';
   options: MultipleChoiceOption[];
   allowMultiple?: boolean; // Single select vs multi-select
-  randomizeOptions?: boolean;
+  shuffleOptions?: boolean;
   displayAs?: 'radio' | 'checkbox' | 'buttons' | 'dropdown';
   minSelections?: number;
   maxSelections?: number;
