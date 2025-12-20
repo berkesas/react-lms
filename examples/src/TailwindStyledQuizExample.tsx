@@ -24,7 +24,7 @@ export function TailwindStyledQuizExample() {
   const [autoSaveInterval, setAutoSaveInterval] = useState(20000);
 
   useEffect(() => {
-    loadQuizData('../public/quizzes/quiz1.json');
+    loadQuizData('quizzes/quiz1.json');
   }, []);
 
   const loadQuizData = async (filePath: string) => {
@@ -106,7 +106,7 @@ export function TailwindStyledQuizExample() {
             </h1>
             <p className="text-red-600 text-center font-medium">{error}</p>
             <button
-              onClick={() => loadQuizData('../public/quizzes/quiz1.json')}
+              onClick={() => loadQuizData('quizzes/quiz1.json')}
               className="mt-4 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium shadow-lg hover:shadow-xl"
             >
               Try Again
@@ -503,7 +503,7 @@ export function StyledQuizLibraryExample() {
 
   const loadQuizLibrary = async () => {
     try {
-      const response = await fetch('../public/quizzes/index.json');
+      const response = await fetch('quizzes/index.json');
       const data = await response.json();
       setAvailableQuizzes(data.quizzes);
     } catch (err) {

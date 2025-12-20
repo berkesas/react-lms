@@ -21,11 +21,10 @@ export function LoadQuizFromJsonExample() {
   const [quizConfig, setQuizConfig] = useState<QuizConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showingResults, setShowingResults] = useState(false);
   const [autoSaveInterval, setAutoSaveInterval] = useState(2000);
 
   useEffect(() => {
-    loadQuizData('../public/quizzes/quiz1.json');
+    loadQuizData('quizzes/quiz1.json');
   }, []);
 
   const loadQuizData = async (filePath: string) => {
@@ -78,7 +77,7 @@ export function LoadQuizFromJsonExample() {
       <div className="example-container">
         <h1>Error Loading Quiz</h1>
         <p style={{ color: 'red' }}>{error}</p>
-        <button onClick={() => loadQuizData('../public/quizzes/quiz1.json')}>
+        <button onClick={() => loadQuizData('quizzes/quiz1.json')}>
           Try Again
         </button>
       </div>
@@ -123,7 +122,7 @@ export function QuizLibraryExample() {
 
   const loadQuizLibrary = async () => {
     try {
-      const response = await fetch('../public/quizzes/index.json');
+      const response = await fetch('quizzes/index.json');
       const data = await response.json();
       setAvailableQuizzes(data.quizzes);
     } catch (err) {
@@ -200,7 +199,7 @@ export function DynamicQuizLoaderExample() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`../public/quizzes/${id}.json`);
+      const response = await fetch(`quizzes/${id}.json`);
 
       if (!response.ok) {
         throw new Error('Quiz not found');
@@ -452,7 +451,6 @@ function QuizContent() {
 }
 
 // Example index.json structure
-// Save this as: ../public/quizzes/index.json
 /*
 {
   "quizzes": [
@@ -460,19 +458,19 @@ function QuizContent() {
       "id": "quiz1",
       "title": "Capitals of the World",
       "description": "Test your knowledge of world capitals",
-      "filePath": "../public/quizzes/quiz1.json"
+      "filePath": "quizzes/quiz1.json"
     },
     {
       "id": "react-basics",
       "title": "React Basics",
       "description": "Fundamental React concepts",
-      "filePath": "../public/quizzes/react-basics.json"
+      "filePath": "quizzes/react-basics.json"
     },
     {
       "id": "javascript-101",
       "title": "JavaScript 101",
       "description": "Core JavaScript concepts",
-      "filePath": "../public/quizzes/javascript-101.json"
+      "filePath": "quizzes/javascript-101.json"
     }
   ]
 }

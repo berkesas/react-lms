@@ -9,6 +9,7 @@ import {
   DynamicQuizLoaderExample,
 } from './LoadQuizFromJsonExample';
 import { TailwindStyledQuizExample } from './TailwindStyledQuizExample';
+import { MarkdownExamples } from './MarkdownExamples';
 import '../../src/styles/index.css';
 import './App.css';
 
@@ -20,7 +21,8 @@ type View =
   | 'results'
   | 'storage'
   | 'fromjson'
-  | 'tailwind';
+  | 'tailwind'
+  | 'markdown';
 
 export function App() {
   const [currentView, setCurrentView] = useState<View>('home');
@@ -52,6 +54,8 @@ export function App() {
         );
       case 'tailwind':
         return <TailwindStyledQuizExample />;
+      case 'markdown':
+        return <MarkdownExamples />;
       default:
         return <HomePage setView={handleViewChange} />;
     }
@@ -62,73 +66,99 @@ export function App() {
       <nav className="app-nav">
         <div className="nav-container">
           <h1 className="nav-title">Pico LMS Components</h1>
-          
+
           {/* Mobile Menu Toggle Button */}
-          <button 
+          <button
             className="mobile-menu-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
-              <svg className="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="menu-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             ) : (
-              <svg className="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="menu-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             )}
           </button>
 
           {/* Navigation Buttons */}
           <div className={`nav-buttons ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-            <button 
+            <button
               className={currentView === 'home' ? 'active' : ''}
               onClick={() => handleViewChange('home')}
             >
               Home
             </button>
-            <button 
+            <button
               className={currentView === 'questions' ? 'active' : ''}
               onClick={() => handleViewChange('questions')}
             >
               Questions
             </button>
-            <button 
+            <button
               className={currentView === 'quizzes' ? 'active' : ''}
               onClick={() => handleViewChange('quizzes')}
             >
               Quizzes
             </button>
-            <button 
+            <button
               className={currentView === 'advanced' ? 'active' : ''}
               onClick={() => handleViewChange('advanced')}
             >
               Advanced
             </button>
-            <button 
+            <button
               className={currentView === 'results' ? 'active' : ''}
               onClick={() => handleViewChange('results')}
             >
               Results
             </button>
-            <button 
+            <button
               className={currentView === 'storage' ? 'active' : ''}
               onClick={() => handleViewChange('storage')}
             >
               Storage
             </button>
-            <button 
+            <button
               className={currentView === 'fromjson' ? 'active' : ''}
               onClick={() => handleViewChange('fromjson')}
             >
               Json Load
             </button>
-            <button 
+            <button
               className={currentView === 'tailwind' ? 'active' : ''}
               onClick={() => handleViewChange('tailwind')}
             >
               Tailwind
+            </button>
+            <button
+              className={currentView === 'markdown' ? 'active' : ''}
+              onClick={() => handleViewChange('markdown')}
+            >
+              Markdown
             </button>
           </div>
         </div>
@@ -182,7 +212,9 @@ function HomePage({ setView }: { setView: (view: View) => void }) {
         <h2>Key Features</h2>
         <ul>
           <li>✅ TypeScript support with full type definitions</li>
-          <li>✅ Flexible submission modes (question-level, quiz-level, hybrid)</li>
+          <li>
+            ✅ Flexible submission modes (question-level, quiz-level, hybrid)
+          </li>
           <li>✅ Built-in validation and feedback systems</li>
           <li>✅ Timer support for timed assessments</li>
           <li>✅ Progress tracking and analytics</li>
@@ -200,7 +232,7 @@ function HomePage({ setView }: { setView: (view: View) => void }) {
             <code>{`npm install @scinforma/picolms
 
 import { MultipleChoice } from '@scinforma/picolms';
-import '@scinforma/picolms/dist/styles/index.css';
+import '@scinforma/picolms/styles.css';
 
 function MyComponent() {
   const config = {
@@ -219,6 +251,7 @@ function MyComponent() {
           </pre>
         </div>
       </div>
+      <div style={{ marginTop: '10px' }}>&copy; 2024-2026 Nazar Mammedov</div>
     </div>
   );
 }
