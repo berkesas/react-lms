@@ -1,6 +1,6 @@
 import { useQuizContext } from '../../../context/QuizContext';
 import type { QuestionConfig } from '../../../types';
-import { MultipleChoiceAnswer, QuestionType } from '../../../types';
+import { MultipleChoiceAnswer } from '../../../types';
 
 export interface QuizResultsProps {
   onRetake?: () => void;
