@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { QuestionConfig, QuestionAnswer, SubmissionStatus, Feedback, ContentRenderer } from '../../types';
+import type { QuestionConfig, QuestionAnswer, SubmissionStatus, Feedback, ContentRenderer, ValidationResult } from '../../types';
 
 export interface QuestionContextValue<T = any> {
   config: QuestionConfig;
@@ -17,11 +17,12 @@ export interface QuestionContextValue<T = any> {
     errors: string[];
     warnings: string[];
   };
-  validate: () => Promise<void>;
+  validate: () => Promise<ValidationResult>;
   showFeedback: boolean;
+  showCheckButton: boolean;
   feedback?: Feedback;
   isLocked: boolean;
-  onSubmit?: () => void;
+  submit: () => void;
   renderContent?: ContentRenderer;
 }
 

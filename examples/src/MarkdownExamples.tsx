@@ -9,7 +9,7 @@ import {
 } from '@lms-components/components/questions';
 import type {
   MultipleChoiceConfig,
-  TrueFalseConfig,
+  TrueOrFalseConfig,
   ShortAnswerConfig,
   EssayConfig,
   FillInBlankConfig,
@@ -138,8 +138,8 @@ export function MarkdownMultipleChoiceExample() {
   );
 }
 
-export function MarkdownTrueFalseExample() {
-  const config: TrueFalseConfig = {
+export function MarkdownTrueOrFalseExample() {
+  const config: TrueOrFalseConfig = {
     id: 'tf-md-1',
     type: 'true-false',
     question:
@@ -730,7 +730,7 @@ export function MarkdownExamples() {
       <MarkdownMultipleChoiceExample />
       <hr style={{ margin: '3rem 0' }} />
 
-      <MarkdownTrueFalseExample />
+      <MarkdownTrueOrFalseExample />
       <hr style={{ margin: '3rem 0' }} />
 
       <MarkdownShortAnswerExample />

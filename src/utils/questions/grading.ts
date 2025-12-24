@@ -2,7 +2,7 @@ import type {
   QuestionConfig,
   QuestionAnswer,
   MultipleChoiceConfig,
-  TrueFalseConfig,
+  TrueOrFalseConfig,
   ShortAnswerConfig,
   FillInBlankConfig,
   MatchingConfig,
@@ -27,7 +27,7 @@ export function gradeQuestion(
     case 'multiple-choice':
       return gradeMultipleChoice(config, answer);
     case 'true-false':
-      return gradeTrueFalse(config, answer);
+      return gradeTrueOrFalse(config, answer);
     case 'short-answer':
       return gradeShortAnswer(config, answer);
     case 'essay':
@@ -108,8 +108,8 @@ function gradeMultipleChoice(
 /**
  * Grade true/false question
  */
-function gradeTrueFalse(
-  config: TrueFalseConfig,
+function gradeTrueOrFalse(
+  config: TrueOrFalseConfig,
   answer: QuestionAnswer
 ): GradingResult {
   if (!answer.isAnswered || answer.value === undefined || answer.value === null) {

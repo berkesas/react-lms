@@ -47,6 +47,8 @@ export interface BaseQuestionConfig {
   
   // Accessibility
   accessibility?: AccessibilityConfig;
+
+  validation?: QuestionValidationConfig;
   
   // Metadata
   metadata?: BaseMetadata;
@@ -67,7 +69,7 @@ export interface ValidationRule {
   type: 'required' | 'minLength' | 'maxLength' | 'pattern' | 'custom';
   value?: any;
   message: string;
-  validator?: (value: any) => boolean | Promise<boolean>;
+  validate?: (value: any) => boolean | Promise<boolean>;
 }
 
 export interface QuestionValidationConfig {
@@ -98,13 +100,13 @@ export interface MultipleChoiceConfig extends BaseQuestionConfig {
 export type MultipleChoiceAnswer = string | string[]; // Single ID or array of IDs
 
 // True/False specific types
-export interface TrueFalseConfig extends BaseQuestionConfig {
+export interface TrueOrFalseConfig extends BaseQuestionConfig {
   type: 'true-false';
   correctAnswer: boolean;
   displayAs?: 'radio' | 'buttons' | 'toggle';
 }
 
-export type TrueFalseAnswer = boolean;
+export type TrueOrFalseAnswer = boolean;
 
 // Short Answer specific types
 export interface ShortAnswerConfig extends BaseQuestionConfig {
@@ -130,7 +132,6 @@ export interface EssayConfig extends BaseQuestionConfig {
   maxCharacters?: number;
   placeholder?: string;
   enableRichText?: boolean;
-  validation?: QuestionValidationConfig;
 }
 
 export type EssayAnswer = string;
@@ -148,7 +149,6 @@ export interface FillInBlankSegment {
 export interface FillInBlankConfig extends BaseQuestionConfig {
   type: 'fill-in-blank';
   segments: FillInBlankSegment[];
-  validation?: QuestionValidationConfig;
 }
 
 export type FillInBlankAnswer = Record<string, string>; // Map of blank ID to answer
@@ -174,7 +174,7 @@ export type MatchingAnswer = Record<string, string>; // Map of left ID to right 
 // Union type for all question configs
 export type QuestionConfig =
   | MultipleChoiceConfig
-  | TrueFalseConfig
+  | TrueOrFalseConfig
   | ShortAnswerConfig
   | EssayConfig
   | FillInBlankConfig

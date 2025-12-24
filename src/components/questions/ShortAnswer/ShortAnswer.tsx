@@ -1,11 +1,20 @@
-import { useCallback, ChangeEvent } from 'react';
+import { useCallback, ChangeEvent, ReactNode } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
-import type { ShortAnswerConfig, ShortAnswerAnswer, ContentRenderer } from '../../../types';
+import type {
+  ShortAnswerConfig,
+  ShortAnswerAnswer,
+  ContentRenderer,
+} from '../../../types';
+import { useShortAnswerValidation } from '../../../hooks/questions/useShortAnswerValidation';
 
-export interface ShortAnswerProps extends Omit<BaseQuestionProps<ShortAnswerAnswer>, 'config'> {
+export interface ShortAnswerProps extends Omit<
+  BaseQuestionProps<ShortAnswerAnswer>,
+  'config'
+> {
   config: ShortAnswerConfig;
   renderContent?: ContentRenderer;
+  children?: ReactNode;
 }
 
 /**
@@ -18,27 +27,38 @@ const defaultContentRenderer: ContentRenderer = (content) => {
 
 function ShortAnswerContent() {
   const context = useQuestionContext<ShortAnswerAnswer>();
-  const { config, answer, setAnswer, isLocked, validation, renderContent } = context;
+  const {
+    config,
+    answer,
+    setAnswer,
+    showCheckButton,
+    isLocked,
+    validation,
+    renderContent,
+  } = context;
 
   // Use renderContent from context, fallback to default safe renderer
   const contentRenderer = renderContent || defaultContentRenderer;
-  
+
   if (config.type !== 'short-answer') {
     throw new Error('ShortAnswer component requires a short-answer config');
   }
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (isLocked) return;
-    
-    let value = e.target.value;
-    
-    // Apply trimming if configured
-    if (config.trimWhitespace) {
-      value = value.trim();
-    }
-    
-    setAnswer(value);
-  }, [isLocked, setAnswer, config.trimWhitespace]);
+  const handleChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (isLocked) return;
+
+      let value = e.target.value;
+
+      // Apply trimming if configured
+      if (config.trimWhitespace) {
+        value = value.trim();
+      }
+
+      setAnswer(value);
+    },
+    [isLocked, setAnswer, config.trimWhitespace]
+  );
 
   const handleBlur = useCallback(() => {
     if (config.validation?.validateOnBlur) {
@@ -55,19 +75,17 @@ function ShortAnswerContent() {
         {config.title && (
           <h3 className="picolms-question-title">{config.title}</h3>
         )}
-        {/* ✅ Use custom renderer for question text */}
         <div className="picolms-question-text">
           {contentRenderer(config.question, {
             type: 'question',
-            questionId: config.id
+            questionId: config.id,
           })}
         </div>
         {config.instructions && (
           <p className="picolms-question-instructions">
-            {/* ✅ Use custom renderer for instructions */}
             {contentRenderer(config.instructions, {
               type: 'instruction',
-              questionId: config.id
+              questionId: config.id,
             })}
           </p>
         )}
@@ -101,69 +119,114 @@ function ShortAnswerContent() {
           pattern={config.pattern}
           aria-label={config.accessibility?.ariaLabel || 'Your answer'}
           aria-invalid={validation.errors.length > 0}
-          aria-describedby={validation.errors.length > 0 ? `error-${config.id}` : undefined}
+          aria-describedby={
+            validation.errors.length > 0 ? `error-${config.id}` : undefined
+          }
         />
-        
+
         {showCharacterCount && (
           <div className="picolms-sa-character-count">
             {characterCount}
             {config.maxLength && ` / ${config.maxLength}`}
-            {config.minLength && !config.maxLength && ` (min: ${config.minLength})`}
+            {config.minLength &&
+              !config.maxLength &&
+              ` (min: ${config.minLength})`}
           </div>
         )}
       </div>
 
       {validation.errors.length > 0 && (
-        <div id={`error-${config.id}`} className="picolms-question-errors" role="alert">
+        <div
+          id={`error-${config.id}`}
+          className="picolms-question-errors"
+          role="alert"
+        >
           {validation.errors.map((error, index) => (
-            <p key={index} className="picolms-error-message">{error}</p>
+            <p key={index} className="picolms-error-message">
+              {error}
+            </p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
+        <div
+          className={`picolms-question-feedback feedback-${context.feedback.type}`}
+          role="status"
+        >
           {context.feedback.message}
         </div>
       )}
 
-      {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="picolms-question-hints">
-          <details>
-            <summary>Show Hint</summary>
-            {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="picolms-hint-text">
-                {/* ✅ Use custom renderer for hints */}
-                {contentRenderer(hint, {
-                  type: 'hint',
-                  questionId: config.id
-                })}
-              </p>
-            ))}
-          </details>
+      {config.feedback?.hints &&
+        config.feedback.hints.length > 0 &&
+        !isLocked && (
+          <div className="picolms-question-hints">
+            <details>
+              <summary>Show Hint</summary>
+              {config.feedback.hints.map((hint, index) => (
+                <p key={index} className="picolms-hint-text">
+                  {contentRenderer(hint, {
+                    type: 'hint',
+                    questionId: config.id,
+                  })}
+                </p>
+              ))}
+            </details>
+          </div>
+        )}
+
+      {(config.points || config.difficulty) && (
+        <div className="picolms-question-meta">
+          {config.points && (
+            <span className="picolms-question-points">
+              {config.points} points
+            </span>
+          )}
+          {config.difficulty && (
+            <span className="picolms-question-difficulty">
+              {config.difficulty}
+            </span>
+          )}
         </div>
       )}
 
-      <div className="picolms-question-meta">
-        <span className="picolms-question-points">{config.points} points</span>
-        {config.difficulty && (
-          <span className="picolms-question-difficulty">{config.difficulty}</span>
-        )}
-      </div>
+      {showCheckButton && (
+        <div className="picolms-question-actions">
+          <button
+            className="picolms-check-button"
+            onClick={() => context.submit()}
+            disabled={!context.isAnswered || isLocked}
+          >
+            Check
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
 export function ShortAnswer(props: ShortAnswerProps) {
-  const { config, renderContent, ...baseProps } = props;
+  const { config, renderContent, children, ...baseProps } = props;
+
+  const enhancedValidationRules = useShortAnswerValidation(config);
+
+  const enhancedConfig: ShortAnswerConfig = {
+    ...config,
+    validation: {
+      ...config.validation,
+      rules: enhancedValidationRules,
+    },
+  };
 
   return (
-    <BaseQuestion<ShortAnswerAnswer> 
-      config={config}
+    <BaseQuestion<ShortAnswerAnswer>
+      config={enhancedConfig}
       renderContent={renderContent}
       {...baseProps}
     >
       <ShortAnswerContent />
+      {children}
     </BaseQuestion>
   );
 }

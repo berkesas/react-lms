@@ -1,11 +1,13 @@
 # @scinforma/picolms
 
-A lightweight React component library for building learning management systems with full TypeScript support.
+A React component library for building learning management systems.
+
+**NOTE: This is a dynamically developing library, breaking changes are highly likely. Expect stabilization by major version 1.0**
 
 ## Documentation and examples
 
-Documentation - [https://berkesas.github.io/picolms-docs/](https://berkesas.github.io/picolms-docs/)
-Demo examples - [https://berkesas.github.io/picolms/](https://berkesas.github.io/picolms/)
+- Documentation - [https://berkesas.github.io/picolms-docs/](https://berkesas.github.io/picolms-docs/)
+- Demo examples - [https://berkesas.github.io/picolms/](https://berkesas.github.io/picolms/)
 
 [![npm version](https://badge.fury.io/js/@scinforma%2Fpicolms.svg)](https://www.npmjs.com/package/@scinforma/picolms)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -13,8 +15,8 @@ Demo examples - [https://berkesas.github.io/picolms/](https://berkesas.github.io
 ## Features
 
 - **Rich Question Types** - Multiple choice, true/false, short answer, essay, fill-in-blank, and matching questions
-- **Complete Quiz System** - Full-featured quiz management with navigation, progress tracking, and review
-- **Flexible Submission Modes** - Question-level, quiz-level, or hybrid submission
+- **Quiz System** - Full-featured quiz management with navigation, progress tracking, and review
+- **Submission Modes** - Question-level, quiz-level, or hybrid submission
 - **Automatic Grading** - Built-in grading engine for objective questions
 - **Storage Support** - Save results to localStorage or your backend API
 - **Auto-Save** - Configurable auto-save with intelligent debouncing
@@ -22,7 +24,6 @@ Demo examples - [https://berkesas.github.io/picolms/](https://berkesas.github.io
 - **Accessible** - WCAG 2.1 AA compliant components
 - **Themeable** - Easy customization with CSS variables
 - **Responsive** - Mobile-friendly out of the box
-- **Lightweight** - Tree-shakeable with zero runtime dependencies
 
 ## Contributing
 

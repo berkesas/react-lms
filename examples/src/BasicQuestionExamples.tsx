@@ -9,7 +9,7 @@ import {
 } from '@lms-components/components/questions';
 import type {
   MultipleChoiceConfig,
-  TrueFalseConfig,
+  TrueOrFalseConfig,
   ShortAnswerConfig,
   EssayConfig,
   FillInBlankConfig,
@@ -27,7 +27,12 @@ export function MultipleChoiceExample() {
     difficulty: 'beginner',
     options: [
       { id: 'opt1', text: 'London', isCorrect: false },
-      { id: 'opt2', text: 'Paris', isCorrect: true, feedback: 'Correct! Paris is the capital of France.' },
+      {
+        id: 'opt2',
+        text: 'Paris',
+        isCorrect: true,
+        feedback: 'Correct! Paris is the capital of France.',
+      },
       { id: 'opt3', text: 'Berlin', isCorrect: false },
       { id: 'opt4', text: 'Madrid', isCorrect: false },
     ],
@@ -72,7 +77,8 @@ export function MultiSelectExample() {
   const config: MultipleChoiceConfig = {
     id: 'mc-2',
     type: 'multiple-choice',
-    question: 'Which of the following are programming languages? (Select all that apply)',
+    question:
+      'Which of the following are programming languages? (Select all that apply)',
     instructions: 'Select all correct answers',
     points: 20,
     options: [
@@ -107,12 +113,13 @@ export function MultiSelectExample() {
 }
 
 export function TrueOrFalseExample() {
-  const config: TrueFalseConfig = {
+  const config: TrueOrFalseConfig = {
     id: 'tf-1',
     type: 'true-false',
     question: 'The Earth is flat.',
     points: 5,
     correctAnswer: false,
+    maxAttempts: 3,
     displayAs: 'buttons',
     feedback: {
       correct: {
@@ -133,8 +140,10 @@ export function TrueOrFalseExample() {
       <h2>True/False Example</h2>
       <TrueOrFalse
         config={config}
+        answer={answer}
         onAnswerChange={(ans) => setAnswer(ans)}
         showFeedback={true}
+        showCheckButton={true}
       />
       <div className="example-output">
         <h3>Current Answer:</h3>
@@ -152,11 +161,12 @@ export function ShortAnswerExample() {
     type: 'short-answer',
     question: 'What is the chemical symbol for water?',
     instructions: 'Enter your answer in the text box below',
-    points: 5,
+    points: 0,
     correctAnswers: ['H2O', 'h2o'],
     caseSensitive: false,
     trimWhitespace: true,
     maxLength: 10,
+    maxAttempts: 3,
     placeholder: 'Enter your answer...',
     validation: {
       rules: [
@@ -171,6 +181,16 @@ export function ShortAnswerExample() {
         },
       ],
     },
+    feedback: {
+      correct: {
+        type: 'correct',
+        message: 'Correct! H2O is the chemical symbol for water.',
+      },
+      incorrect: {
+        type: 'incorrect',
+        message: 'Incorrect. The correct answer is H2O or h2o.',
+      },
+    },
   };
 
   const [answer, setAnswer] = useState<QuestionAnswer<string>>();
@@ -181,6 +201,8 @@ export function ShortAnswerExample() {
       <ShortAnswer
         config={config}
         onAnswerChange={(ans) => setAnswer(ans)}
+        showCheckButton={true}
+        showFeedback={true}
       />
       <div className="example-output">
         <h3>Current Answer:</h3>
@@ -196,7 +218,8 @@ export function EssayExample() {
   const config: EssayConfig = {
     id: 'essay-1',
     type: 'essay',
-    question: 'Describe the importance of renewable energy in combating climate change.',
+    question:
+      'Describe the importance of renewable energy in combating climate change.',
     instructions: 'Write a detailed essay (minimum 100 words)',
     points: 50,
     minWords: 100,
@@ -209,10 +232,7 @@ export function EssayExample() {
   return (
     <div className="example-container">
       <h2>Essay Example</h2>
-      <Essay
-        config={config}
-        onAnswerChange={(ans) => setAnswer(ans)}
-      />
+      <Essay config={config} onAnswerChange={(ans) => setAnswer(ans)} />
       <div className="example-output">
         <h3>Current Answer Length:</h3>
         <pre>{answer?.value?.length || 0} characters</pre>
@@ -232,24 +252,37 @@ export function FillInBlankExample() {
     points: 15,
     segments: [
       { type: 'text', content: 'The ' },
-      { type: 'blank', id: 'blank1', correctAnswers: ['quick', 'fast'], placeholder: '___' },
+      {
+        type: 'blank',
+        id: 'blank1',
+        correctAnswers: ['quick', 'fast'],
+        placeholder: '___',
+      },
       { type: 'text', content: ' brown ' },
-      { type: 'blank', id: 'blank2', correctAnswers: ['fox'], placeholder: '___' },
+      {
+        type: 'blank',
+        id: 'blank2',
+        correctAnswers: ['fox'],
+        placeholder: '___',
+      },
       { type: 'text', content: ' jumps over the lazy ' },
-      { type: 'blank', id: 'blank3', correctAnswers: ['dog'], placeholder: '___' },
+      {
+        type: 'blank',
+        id: 'blank3',
+        correctAnswers: ['dog'],
+        placeholder: '___',
+      },
       { type: 'text', content: '.' },
     ],
   };
 
-  const [answer, setAnswer] = useState<QuestionAnswer<Record<string, string>>>();
+  const [answer, setAnswer] =
+    useState<QuestionAnswer<Record<string, string>>>();
 
   return (
     <div className="example-container">
       <h2>Fill in the Blank Example</h2>
-      <FillInBlank
-        config={config}
-        onAnswerChange={(ans) => setAnswer(ans)}
-      />
+      <FillInBlank config={config} onAnswerChange={(ans) => setAnswer(ans)} />
       <div className="example-output">
         <h3>Current Answer:</h3>
         <pre>{JSON.stringify(answer?.value, null, 2)}</pre>
@@ -277,15 +310,13 @@ export function MatchingExample() {
     randomizeRight: true,
   };
 
-  const [answer, setAnswer] = useState<QuestionAnswer<Record<string, string>>>();
+  const [answer, setAnswer] =
+    useState<QuestionAnswer<Record<string, string>>>();
 
   return (
     <div className="example-container">
       <h2>Matching Example</h2>
-      <Matching
-        config={config}
-        onAnswerChange={(ans) => setAnswer(ans)}
-      />
+      <Matching config={config} onAnswerChange={(ans) => setAnswer(ans)} />
       <div className="example-output">
         <h3>Current Answer:</h3>
         <pre>{JSON.stringify(answer?.value, null, 2)}</pre>
@@ -300,25 +331,25 @@ export function AllQuestionsExample() {
   return (
     <div className="all-examples">
       <h1>Question Components Examples</h1>
-      
+
       <MultipleChoiceExample />
       <hr />
-      
+
       <MultiSelectExample />
       <hr />
-      
+
       <TrueOrFalseExample />
       <hr />
-      
+
       <ShortAnswerExample />
       <hr />
-      
+
       <EssayExample />
       <hr />
-      
+
       <FillInBlankExample />
       <hr />
-      
+
       <MatchingExample />
     </div>
   );

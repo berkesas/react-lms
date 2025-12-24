@@ -73,8 +73,8 @@ export function useQuestionValidation<T = any>(
             break;
 
           case 'custom':
-            if (rule.validator) {
-              isValid = await rule.validator(value);
+            if (rule.validate) {
+              isValid = await rule.validate(value);
             }
             break;
         }

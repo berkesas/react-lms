@@ -248,7 +248,7 @@
 
 .picolms-tf-button {
   flex: 1;
-  padding: var(--picolms-spacing-md) var(--picolms-spacing-lg);
+  padding: var(--picolms-spacing-sm) var(--picolms-spacing-sm);
   border: 2px solid var(--picolms-color-border);
   border-radius: var(--picolms-radius-md);
   background-color: var(--picolms-color-background);
@@ -511,4 +511,37 @@
 .picolms-matching-used-indicator {
   color: var(--picolms-color-success);
   font-weight: var(--picolms-font-weight-bold);
+}
+
+.picolms-question-actions {
+  margin-top: var(--picolms-spacing-sm);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--picolms-spacing-md);
+}
+
+.picolms-check-button {
+  padding: var(--picolms-spacing-sm) var(--picolms-spacing-sm);
+  border: 2px solid var(--picolms-color-primary);
+  border-radius: var(--picolms-radius-md);
+  background-color: var(--picolms-color-primary);
+  color: white;
+  font-size: var(--picolms-font-size-base);
+  font-weight: var(--picolms-font-weight-medium);
+  cursor: pointer;
+  transition: all var(--picolms-transition-base);
+}
+
+.picolms-check-button:hover:not(:disabled) {
+  background-color: var(--picolms-color-primary-hover);
+  border-color: var(--picolms-color-primary-hover);
+  box-shadow: var(--picolms-shadow-sm);
+}
+
+.picolms-check-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--picolms-color-background-secondary);
+  border-color: var(--picolms-color-border);
+  color: var(--picolms-color-text-secondary);
 }

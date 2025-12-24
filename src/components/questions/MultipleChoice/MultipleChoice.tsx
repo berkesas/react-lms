@@ -139,7 +139,7 @@ function MultipleChoiceContent() {
               option.feedback ? `feedback-${option.id}` : undefined
             }
           />
-          {/* ✅ Use custom renderer for option text */}
+          {/* Use custom renderer for option text */}
           <span className="picolms-mc-option-text">
             {contentRenderer(option.text, {
               type: 'option',
@@ -160,7 +160,7 @@ function MultipleChoiceContent() {
             id={`feedback-${option.id}`}
             className="picolms-mc-option-feedback"
           >
-            {/* ✅ Use custom renderer for feedback */}
+            {/* Use custom renderer for feedback */}
             {contentRenderer(option.feedback, {
               type: 'feedback',
               questionId: config.id,
@@ -178,7 +178,7 @@ function MultipleChoiceContent() {
         {config.title && (
           <h3 className="picolms-question-title">{config.title}</h3>
         )}
-        {/* ✅ Use custom renderer for question text */}
+        {/* Use custom renderer for question text */}
         <div className="picolms-question-text">
           {contentRenderer(config.question, {
             type: 'question',
@@ -187,7 +187,7 @@ function MultipleChoiceContent() {
         </div>
         {config.instructions && (
           <p className="picolms-question-instructions">
-            {/* ✅ Use custom renderer for instructions */}
+            {/* Use custom renderer for instructions */}
             {contentRenderer(config.instructions, {
               type: 'instruction',
               questionId: config.id,
@@ -246,7 +246,7 @@ function MultipleChoiceContent() {
               <summary>Show Hint</summary>
               {config.feedback.hints.map((hint, index) => (
                 <p key={index} className="picolms-hint-text">
-                  {/* ✅ Use custom renderer for hints */}
+                  {/* Use custom renderer for hints */}
                   {contentRenderer(hint, {
                     type: 'hint',
                     questionId: config.id,

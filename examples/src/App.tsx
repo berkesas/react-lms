@@ -148,12 +148,12 @@ export function App() {
             >
               Json Load
             </button>
-            <button
+            {/* <button
               className={currentView === 'tailwind' ? 'active' : ''}
               onClick={() => handleViewChange('tailwind')}
             >
               Tailwind
-            </button>
+            </button> */}
             <button
               className={currentView === 'markdown' ? 'active' : ''}
               onClick={() => handleViewChange('markdown')}
@@ -172,10 +172,9 @@ function HomePage({ setView }: { setView: (view: View) => void }) {
   return (
     <div className="home-page">
       <div className="home-header">
-        <h1>Welcome to Pico LMS Components</h1>
+        <h1>Welcome to Pico LMS</h1>
         <p className="subtitle">
-          A lightweight library of React components for building learning
-          management systems
+          A React component library for building learning management systems.
         </p>
       </div>
 

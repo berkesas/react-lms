@@ -1,11 +1,20 @@
-import { useCallback } from 'react';
+import { ReactNode, useCallback } from 'react';
 import { BaseQuestion, BaseQuestionProps } from '../BaseQuestion';
 import { useQuestionContext } from '../../../context/QuestionContext';
-import type { TrueFalseConfig, TrueFalseAnswer, ContentRenderer } from '../../../types';
+import type {
+  TrueOrFalseConfig,
+  TrueOrFalseAnswer,
+  ContentRenderer,
+} from '../../../types';
+import { useTrueOrFalseValidation } from '../../../hooks/questions/useTrueOrFalseValidation';
 
-export interface TrueOrFalseProps extends Omit<BaseQuestionProps<TrueFalseAnswer>, 'config'> {
-  config: TrueFalseConfig;
+export interface TrueOrFalseProps extends Omit<
+  BaseQuestionProps<TrueOrFalseAnswer>,
+  'config'
+> {
+  config: TrueOrFalseConfig;
   renderContent?: ContentRenderer;
+  children?: ReactNode;
 }
 
 /**
@@ -17,26 +26,43 @@ const defaultContentRenderer: ContentRenderer = (content) => {
 };
 
 function TrueOrFalseContent() {
-  const context = useQuestionContext<TrueFalseAnswer>();
-  const { config, answer, setAnswer, isLocked, validation, renderContent } = context;
+  const context = useQuestionContext<TrueOrFalseAnswer>();
+  const {
+    config,
+    answer,
+    setAnswer,
+    showCheckButton,
+    isLocked,
+    validation,
+    renderContent,
+  } = context;
 
   // Use renderContent from context, fallback to default safe renderer
   const contentRenderer = renderContent || defaultContentRenderer;
-  
+
   if (config.type !== 'true-false') {
     throw new Error('TrueOrFalse component requires a true-false config');
   }
 
-  const handleChange = useCallback((value: boolean) => {
-    if (isLocked) return;
-    setAnswer(value);
-  }, [isLocked, setAnswer]);
+  const handleChange = useCallback(
+    (value: boolean) => {
+      if (isLocked) return;
+      setAnswer(value);
+    },
+    [isLocked, setAnswer]
+  );
 
   const displayAs = config.displayAs || 'radio';
 
   const renderRadioButtons = () => (
-    <div className="picolms-tf-options" role="radiogroup" aria-label="True or False">
-      <label className={`picolms-tf-option ${answer.value === true ? 'tf-option-selected' : ''}`}>
+    <div
+      className="picolms-tf-options"
+      role="radiogroup"
+      aria-label="True or False"
+    >
+      <label
+        className={`picolms-tf-option ${answer.value === true ? 'picolms-tf-option-selected' : ''}`}
+      >
         <input
           type="radio"
           name={`question-${config.id}`}
@@ -47,7 +73,9 @@ function TrueOrFalseContent() {
         />
         <span className="tf-option-text">True</span>
       </label>
-      <label className={`picolms-tf-option ${answer.value === false ? 'tf-option-selected' : ''}`}>
+      <label
+        className={`picolms-tf-option ${answer.value === false ? 'picolms-tf-option-selected' : ''}`}
+      >
         <input
           type="radio"
           name={`question-${config.id}`}
@@ -65,7 +93,7 @@ function TrueOrFalseContent() {
     <div className="picolms-tf-buttons" role="group" aria-label="True or False">
       <button
         type="button"
-        className={`picolms-tf-button ${answer.value === true ? 'tf-button-selected' : ''}`}
+        className={`picolms-tf-button ${answer.value === true ? 'picolms-tf-button-selected' : ''}`}
         onClick={() => handleChange(true)}
         disabled={isLocked}
         aria-pressed={answer.value === true}
@@ -74,7 +102,7 @@ function TrueOrFalseContent() {
       </button>
       <button
         type="button"
-        className={`picolms-tf-button ${answer.value === false ? 'tf-button-selected' : ''}`}
+        className={`picolms-tf-button ${answer.value === false ? 'picolms-tf-button-selected' : ''}`}
         onClick={() => handleChange(false)}
         disabled={isLocked}
         aria-pressed={answer.value === false}
@@ -109,19 +137,19 @@ function TrueOrFalseContent() {
         {config.title && (
           <h3 className="picolms-question-title">{config.title}</h3>
         )}
-        {/* ✅ Use custom renderer for question text */}
+        {/* Use custom renderer for question text */}
         <div className="picolms-question-text">
           {contentRenderer(config.question, {
             type: 'question',
-            questionId: config.id
+            questionId: config.id,
           })}
         </div>
         {config.instructions && (
           <p className="picolms-question-instructions">
-            {/* ✅ Use custom renderer for instructions */}
+            {/* Use custom renderer for instructions */}
             {contentRenderer(config.instructions, {
               type: 'instruction',
-              questionId: config.id
+              questionId: config.id,
             })}
           </p>
         )}
@@ -149,54 +177,91 @@ function TrueOrFalseContent() {
       {validation.errors.length > 0 && (
         <div className="picolms-question-errors" role="alert">
           {validation.errors.map((error, index) => (
-            <p key={index} className="picolms-error-message">{error}</p>
+            <p key={index} className="picolms-error-message">
+              {error}
+            </p>
           ))}
         </div>
       )}
 
       {context.feedback && context.showFeedback && (
-        <div className={`picolms-question-feedback feedback-${context.feedback.type}`} role="status">
+        <div
+          className={`picolms-question-feedback feedback-${context.feedback.type}`}
+          role="status"
+        >
           {context.feedback.message}
         </div>
       )}
 
-      {config.feedback?.hints && config.feedback.hints.length > 0 && !isLocked && (
-        <div className="picolms-question-hints">
-          <details>
-            <summary>Show Hint</summary>
-            {config.feedback.hints.map((hint, index) => (
-              <p key={index} className="picolms-hint-text">
-                {/* ✅ Use custom renderer for hints */}
-                {contentRenderer(hint, {
-                  type: 'hint',
-                  questionId: config.id
-                })}
-              </p>
-            ))}
-          </details>
+      {config.feedback?.hints &&
+        config.feedback.hints.length > 0 &&
+        !isLocked && (
+          <div className="picolms-question-hints">
+            <details>
+              <summary>Show Hint</summary>
+              {config.feedback.hints.map((hint, index) => (
+                <p key={index} className="picolms-hint-text">
+                  {contentRenderer(hint, {
+                    type: 'hint',
+                    questionId: config.id,
+                  })}
+                </p>
+              ))}
+            </details>
+          </div>
+        )}
+
+      {(config.points || config.difficulty) && (
+        <div className="picolms-question-meta">
+          {config.points && (
+            <span className="picolms-question-points">
+              {config.points} points
+            </span>
+          )}
+          {config.difficulty && (
+            <span className="picolms-question-difficulty">
+              {config.difficulty}
+            </span>
+          )}
         </div>
       )}
 
-      <div className="picolms-question-meta">
-        <span className="picolms-question-points">{config.points} points</span>
-        {config.difficulty && (
-          <span className="picolms-question-difficulty">{config.difficulty}</span>
-        )}
-      </div>
+      {showCheckButton && (
+        <div className="picolms-question-actions">
+          <button
+            className="picolms-check-button"
+            onClick={() => context.submit()}
+            disabled={!context.isAnswered || isLocked}
+          >
+            Check
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
 export function TrueOrFalse(props: TrueOrFalseProps) {
-  const { config, renderContent, ...baseProps } = props;
+  const { config, renderContent, children, ...baseProps } = props;
+
+  const enhancedValidationRules = useTrueOrFalseValidation(config);
+
+  const enhancedConfig: TrueOrFalseConfig = {
+    ...config,
+    validation: {
+      ...config.validation,
+      rules: enhancedValidationRules,
+    },
+  };
 
   return (
-    <BaseQuestion<TrueFalseAnswer> 
-      config={config}
+    <BaseQuestion<TrueOrFalseAnswer>
+      config={enhancedConfig}
       renderContent={renderContent}
       {...baseProps}
     >
       <TrueOrFalseContent />
+      {children}
     </BaseQuestion>
   );
 }

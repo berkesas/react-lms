@@ -14,7 +14,7 @@ export * from './learners';
 import type { 
   QuestionConfig, 
   MultipleChoiceConfig,
-  TrueFalseConfig,
+  TrueOrFalseConfig,
   ShortAnswerConfig,
   EssayConfig,
   FillInBlankConfig,
@@ -25,7 +25,7 @@ export function isMultipleChoice(config: QuestionConfig): config is MultipleChoi
   return config.type === 'multiple-choice';
 }
 
-export function isTrueFalse(config: QuestionConfig): config is TrueFalseConfig {
+export function isTrueOrFalse(config: QuestionConfig): config is TrueOrFalseConfig {
   return config.type === 'true-false';
 }
 
