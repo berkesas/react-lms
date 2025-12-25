@@ -58,19 +58,6 @@ export interface QuizState {
   isPassed?: boolean;
 }
 
-export interface QuizResult {
-  quizId: string;
-  answers: QuestionAnswer[];
-  submissions: QuestionSubmission[];
-  score: number;
-  maxScore: number;
-  percentage: number;
-  isPassed: boolean;
-  timeSpent: number;
-  attemptNumber: number;
-  submittedAt: string;
-}
-
 export interface QuizProgress {
   totalQuestions: number;
   answeredQuestions: number;
@@ -80,18 +67,28 @@ export interface QuizProgress {
   timeRemaining?: number;
 }
 
-/**
- * Loaded quiz result for displaying previous submissions
- */
+export interface QuizResult {
+  quizId: string;
+  answers: QuestionAnswer[];
+  score: number;
+  maxScore: number;
+  percentage: number;
+  isPassed: boolean;
+  timeSpent: number;
+  attemptNumber: number;
+  submittedAt: string;
+  submissions: QuestionSubmission[];
+}
+
 export interface LoadedQuizResult {
   quizId: string;
-  submittedAt: string;
+  answers: QuestionAnswer[];
   score: number;
   maxScore: number;
   percentage: number;
   isPassed: boolean;
   attemptNumber: number;
-  answers: QuestionAnswer[];
+  submittedAt: string;
   gradedAnswers?: Map<string, {
     isCorrect: boolean;
     score: number;

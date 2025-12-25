@@ -11,15 +11,34 @@
   --nav-height: 73px; /* Based on your existing nav padding */
 }
 
+
+/* Dark Mode Support (Optional Enhancement) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #60a5fa;
+    --primary-hover: #3b82f6;
+    --background: #1f2937;
+    --surface: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --border: #374151;
+    --shadow: rgba(0, 0, 0, 0.3);
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+}
 /* Your existing app styles */
 .app {
   min-height: 100vh;
-  background-color: #f9fafb;
+  background-color: var(--background);
 }
 
 /* Enhanced navigation with mobile support */
 .app-nav {
-  background: white;
+  background-color: var(--background);
   padding: 1rem 2rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -76,7 +95,7 @@
 .nav-buttons button {
   padding: 0.5rem 1rem;
   border: 2px solid #3b82f6;
-  background: white;
+  background: var(--background);
   color: #3b82f6;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -247,7 +266,7 @@
 
 /* Your existing example container */
 .example-container {
-  background: white;
+  background: var(--background);
   padding: 2rem;
   border-radius: 1rem;
   margin-bottom: 2rem;
@@ -256,7 +275,6 @@
 
 .example-container h2 {
   margin-bottom: 1.5rem;
-  color: #1f2937;
   border-bottom: 2px solid #e5e7eb;
   padding-bottom: 0.5rem;
 }
@@ -268,14 +286,14 @@
 .example-output {
   margin-top: 2rem;
   padding: 1rem;
-  background: #f3f4f6;
+  background: var(--surface);
   border-radius: 0.5rem;
 }
 
 .example-output h3 {
   margin-bottom: 0.5rem;
   font-size: 1rem;
-  color: #4b5563;
+  color: var(--text-secondary);
 }
 
 .example-output pre {
@@ -357,6 +375,7 @@
     width: 100%;
     text-align: left;
     padding: 0.75rem 1rem;
+    background-color: var(--background);
   }
 
   /* Main content adjustments */
@@ -456,19 +475,5 @@
   .example-output pre {
     font-size: 0.6875rem;
     padding: 0.75rem;
-  }
-}
-
-/* Dark Mode Support (Optional Enhancement) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary-color: #60a5fa;
-    --primary-hover: #3b82f6;
-    --background: #1f2937;
-    --surface: #111827;
-    --text-primary: #f9fafb;
-    --text-secondary: #d1d5db;
-    --border: #374151;
-    --shadow: rgba(0, 0, 0, 0.3);
   }
 }

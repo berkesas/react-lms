@@ -704,7 +704,6 @@ export function MarkdownExamples() {
         className="markdown-features-info"
         style={{
           padding: '1rem',
-          background: '#f0f9ff',
           borderLeft: '4px solid #0ea5e9',
           marginBottom: '2rem',
           borderRadius: '0.5rem',

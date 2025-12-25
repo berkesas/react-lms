@@ -94,7 +94,6 @@ export function StorageExample() {
         style={{
           marginBottom: '1rem',
           padding: '1rem',
-          background: '#f3f4f6',
           borderRadius: '0.5rem',
         }}
       >
@@ -132,7 +131,6 @@ export function StorageExample() {
       <div
         className="storage-stats"
         style={{
-          background: '#f3f4f6',
           padding: '1rem',
           borderRadius: '0.5rem',
           marginBottom: '2rem',

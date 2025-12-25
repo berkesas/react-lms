@@ -18,7 +18,7 @@ export interface UseQuizStorageReturn {
   };
   isLoading: boolean;
   error: Error | null;
-  saveResult: (result: QuizResult) => Promise<void>;
+  saveResult: (result: QuizResult) => Promise<LoadedQuizResult>;
   loadLatest: () => Promise<void>;
   loadAttempt: (attemptNumber: number) => Promise<LoadedQuizResult | null>;
   loadAllAttempts: () => Promise<void>;
@@ -42,11 +42,13 @@ export function useQuizStorage(options: UseQuizStorageOptions): UseQuizStorageRe
   const saveResult = useCallback(async (result: QuizResult) => {
     try {
       setError(null);
-      await storageManager.saveResult(result);
-      
+      const loadedResult = await storageManager.saveResult(result);
+
       // Reload data after save
-      await loadLatest();
+      setLatestResult(loadedResult);
+      // await loadLatest();
       await loadAllAttempts();
+      return loadedResult;
     } catch (err) {
       setError(err as Error);
       throw err;

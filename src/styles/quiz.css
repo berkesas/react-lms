@@ -497,7 +497,8 @@
 
 /* Quiz Results (Detailed) */
 .picolms-quiz-results {
-  background: white;
+  background: var(--picolms-color-background);
+  color: var(--picolms-color-text);
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -508,6 +509,7 @@
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--picolms-color-border);
+  color: var(--picolms-color-text);
 }
 
 .picolms-quiz-results-header h2 {
@@ -521,8 +523,8 @@
 }
 
 .picolms-results-score-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background-color: var(--picolms-color-background);
+  color: var(--picolms-color-text);
   padding: 2rem;
   border-radius: 1rem;
   text-align: center;
@@ -658,7 +660,7 @@
 .picolms-result-answer-value {
   margin-top: 0.5rem;
   padding: 0.75rem;
-  background: white;
+  background: var(--picolms-color-background-secondary);
   border-radius: var(--picolms-radius-md);
   border: 1px solid var(--picolms-color-border);
 }
@@ -703,7 +705,7 @@
 }
 
 .picolms-results-close-button {
-  background: white;
+  background: var(--picolms-color-background);
   color: var(--picolms-color-text);
   border: 2px solid var(--picolms-color-border);
 }

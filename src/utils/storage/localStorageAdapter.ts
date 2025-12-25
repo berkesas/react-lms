@@ -32,7 +32,7 @@ export class LocalStorageQuizAdapter implements QuizStorageAdapter {
   /**
    * Save quiz result to localStorage
    */
-  async saveResult(result: QuizResult): Promise<void> {
+  async saveResult(result: QuizResult): Promise<LoadedQuizResult> {
     try {
       const loadedResult: LoadedQuizResult = {
         quizId: result.quizId,
@@ -73,6 +73,7 @@ export class LocalStorageQuizAdapter implements QuizStorageAdapter {
       this.updateIndex(result.quizId, result.attemptNumber);
 
       console.log('Quiz result saved to localStorage:', result.quizId);
+      return loadedResult;
     } catch (error) {
       console.error('Failed to save quiz result to localStorage:', error);
       throw new Error('Failed to save quiz result');

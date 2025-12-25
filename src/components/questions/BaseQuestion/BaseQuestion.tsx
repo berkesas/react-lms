@@ -112,7 +112,6 @@ export function BaseQuestion<T = any>(props: BaseQuestionProps<T>) {
     if (!result.isValid && config.feedback?.incorrect) {
       setCurrentFeedback(config.feedback.incorrect);
       questionState.incrementAttempt();
-      console.log('attempt number:', questionState.attemptNumber);
     } else if (result.isValid && config.feedback?.correct) {
       setCurrentFeedback(config.feedback.correct);
     }

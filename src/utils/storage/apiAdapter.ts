@@ -52,42 +52,47 @@ export class ApiQuizAdapter implements QuizStorageAdapter {
   /**
    * Save quiz result to backend API
    */
-  async saveResult(result: QuizResult): Promise<void> {
-    try {
-      const response = await fetch(`${this.baseUrl}${this.endpoints.save}`, {
-        method: 'POST',
-        headers: this.headers,
-        body: JSON.stringify({
-          userId: this.userId,
-          quizId: result.quizId,
-          attemptNumber: result.attemptNumber,
-          score: result.score,
-          maxScore: result.maxScore,
-          percentage: result.percentage,
-          isPassed: result.isPassed,
-          timeSpent: result.timeSpent,
-          submittedAt: result.submittedAt,
-          answers: result.answers,
-          submissions: result.submissions.map(sub => ({
-            questionId: sub.questionId,
-            answer: sub.answer,
-            score: sub.score,
-            maxScore: sub.maxScore,
-            feedback: sub.feedback,
-          })),
-        }),
-      });
+  async saveResult(result: QuizResult): Promise<LoadedQuizResult> {
+  try {
+    const response = await fetch(`${this.baseUrl}${this.endpoints.save}`, {
+      method: 'POST',
+      headers: this.headers,
+      body: JSON.stringify({
+        userId: this.userId,
+        quizId: result.quizId,
+        attemptNumber: result.attemptNumber,
+        score: result.score,
+        maxScore: result.maxScore,
+        percentage: result.percentage,
+        isPassed: result.isPassed,
+        timeSpent: result.timeSpent,
+        submittedAt: result.submittedAt,
+        answers: result.answers,
+        submissions: result.submissions,
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
-      }
-
-      console.log('Quiz result saved to API:', result.quizId);
-    } catch (error) {
-      console.error('Failed to save quiz result to API:', error);
-      throw new Error('Failed to save quiz result to backend');
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
     }
+
+    const savedData = await response.json();
+    
+    // Convert gradedAnswers array to Map if needed
+    const loadedResult: LoadedQuizResult = {
+      ...savedData,
+      gradedAnswers: savedData.gradedAnswers 
+        ? new Map(savedData.gradedAnswers)
+        : undefined,
+    };
+
+    console.log('Quiz result saved to API:', result.quizId);
+    return loadedResult;
+  } catch (error) {
+    console.error('Failed to save quiz result to API:', error);
+    throw new Error('Failed to save quiz result to backend');
   }
+}
 
   /**
    * Load quiz result from backend API

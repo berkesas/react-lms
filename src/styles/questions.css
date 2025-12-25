@@ -292,6 +292,7 @@
   font-size: var(--picolms-font-size-base);
   font-family: var(--picolms-font-family);
   transition: all var(--picolms-transition-base);
+  background-color: var(--picolms-color-background);
 }
 
 .picolms-sa-input:focus {
@@ -336,6 +337,7 @@
   line-height: var(--picolms-line-height-relaxed);
   resize: vertical;
   transition: all var(--picolms-transition-base);
+  background-color: var(--picolms-color-background);
 }
 
 .picolms-essay-textarea:focus {
@@ -409,6 +411,7 @@
   font-family: var(--picolms-font-family);
   transition: all var(--picolms-transition-base);
   min-width: 100px;
+  background-color: var(--picolms-color-background);
 }
 
 .picolms-fib-blank:focus {
@@ -480,6 +483,8 @@
   border: 1px solid var(--picolms-color-border);
   border-radius: var(--picolms-radius-md);
   font-size: var(--picolms-font-size-sm);
+  background-color: var(--picolms-color-background-secondary);
+  color: var(--picolms-color-text);
 }
 
 .picolms-matching-clear-button {

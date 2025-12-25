@@ -18,7 +18,7 @@ export class QuizStorageManager {
   /**
    * Save a quiz result
    */
-  async saveResult(result: QuizResult): Promise<void> {
+  async saveResult(result: QuizResult): Promise<LoadedQuizResult> {
     return this.adapter.saveResult(result);
   }
 

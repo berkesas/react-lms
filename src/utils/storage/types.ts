@@ -7,7 +7,7 @@ export interface QuizStorageAdapter {
   /**
    * Save a quiz result
    */
-  saveResult(result: QuizResult): Promise<void>;
+  saveResult(result: QuizResult): Promise<LoadedQuizResult>;
 
   /**
    * Load a quiz result

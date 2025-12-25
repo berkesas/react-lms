@@ -2,7 +2,7 @@
 
 A React component library for building learning management systems.
 
-**NOTE: This is a dynamically developing library, breaking changes are highly likely. Expect stabilization by major version 1.0**
+NOTE: This is a dynamically developing library, breaking changes are highly likely. Expect stabilization by major version 1.0
 
 ## Documentation and examples
 
